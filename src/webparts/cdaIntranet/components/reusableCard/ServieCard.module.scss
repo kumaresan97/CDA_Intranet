@@ -1,0 +1,114 @@
+.ratingStar {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.yellowStar {
+  color: #fbbf24;
+}
+.grayStar {
+  color: #d1d5db;
+}
+
+.cardCotainer {
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+
+  .innerBody {
+    display: flex;
+    margin-bottom: 0.75rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0.5rem;
+      width: 3rem;
+      height: 3rem;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+      i {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+    }
+
+    .starbutton {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+
+      z-index: 10;
+      transition-property: background-color, border-color, color, fill, stroke,
+        opacity, box-shadow, transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 300ms;
+      border: none;
+      background: none;
+
+      :hover {
+        color: #fbbf24;
+      }
+    }
+  }
+
+  .item {
+    flex-grow: 1;
+
+    .itemTitle {
+      font-weight: bold;
+      font-size: 1rem;
+      color: var(--dds-gray-900);
+      margin-bottom: 0.25rem;
+      text-align: center;
+    }
+    .itemDescription {
+      font-size: 0.875rem;
+      color: var(--dds-gray-500);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+  }
+  .arrowSection {
+    margin-top: auto; // mt-auto
+    padding-top: 1rem; // pt-4
+    border-top: 1px solid #f3f4f6; // border-t + border-gray-100
+
+    .arrowwrapper {
+      display: flex; // flex
+      justify-content: space-between; // justify-between
+      align-items: center; // items-center
+
+      .myText {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        font-weight: 700;
+        color: var(--dds-blue-500);
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        i {
+          margin-right: 0.25rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      .viewSetion {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+    }
+  }
+}

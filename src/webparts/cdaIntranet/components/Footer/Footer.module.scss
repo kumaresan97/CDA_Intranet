@@ -1,0 +1,19 @@
+.footer {
+  background-color: var(--dds-blue-700); // bg-dds-blue-700
+  color: #fff;
+  margin-top: 3rem; // mt-12
+  padding: 2rem 0; // py-8
+
+  .container {
+    // max-width: 1200px;
+    margin: 0 auto; // mx-auto
+    padding: 0 1rem; // px-4
+    text-align: center;
+  }
+
+  .version {
+    font-size: 0.875rem; // text-sm
+    opacity: 0.7; // opacity-70
+    margin-top: 0.5rem; // mt-2
+  }
+}

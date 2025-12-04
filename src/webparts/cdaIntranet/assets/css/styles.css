@@ -1,0 +1,472 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.CanvasComponent.LCS .CanvasZone:not(.CanvasZone--fullWidth) .ControlZone {
+  padding: 0 !important;
+}
+
+.ControlZone {
+  padding: 0 !important;
+}
+
+.CanvasSection {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  /* background: #f0f0f0 !important; */
+}
+
+.CanvasComponent.LCS .CanvasSection-col {
+  padding: 0 !important;
+}
+
+.spAppAndPropertyPanelContainer .sp-appBar {
+  display: none;
+}
+#workbenchPageContent > div > div > div {
+  padding: 0px !important;
+}
+
+#spCommandBar {
+  display: none !important;
+}
+
+/* #spLeftNav {
+    display: none !important;
+  } */
+
+#spSiteHeader {
+  display: none !important;
+}
+
+.CanvasComponent.LCS
+  .CanvasSection--read:not(.CanvasSection--fullWidth)
+  .ControlZone {
+  margin-top: 0 !important;
+}
+
+div[data-automation-id="CanvasZone-SectionContainer"] {
+  margin: 0 !important;
+  margin-top: 33px !important;
+}
+
+.CanvasZone-SectionContainer {
+  background-color: var(--body-bgcolor) !important;
+}
+
+.fui-DialogSurface__backdrop {
+  display: none !important;
+}
+
+.fui-DialogSurface {
+  display: none !important;
+}
+
+/* reset width in deloyment */
+
+.CanvasComponent .CanvasZone {
+  max-width: 100% !important;
+  padding: 0px !important;
+}
+
+#workbenchPageContent {
+  width: 100% !important;
+  max-width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+/* #workbenchCommandBar {
+  display: none !important;
+} */
+
+.ControlZone {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.CanvasComponent > div > div,
+.CanvasComponent > div > div > div,
+.CanvasComponent > div > div > div > div,
+.CanvasComponent > div > div > div > div > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  display: block;
+}
+
+.CanvasComponent > div > div > div > div {
+  max-width: 100% !important;
+}
+
+.mainContent > article > div > div {
+  display: block !important;
+}
+
+.webPartContainer {
+  display: none !important;
+}
+
+.ControlZone--clean {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.CanvasSection {
+  padding-left: 0px !important;
+}
+
+.spAppAndPropertyPanelContainer .sp-appBar {
+  display: none !important;
+}
+
+#CommentsWrapper {
+  display: none !important;
+}
+#workbenchPageContent {
+  width: 100% !important;
+  max-width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+#workbenchPageContent > div > div > div {
+  padding: 0px !important;
+}
+
+#spCommandBar {
+  display: none !important;
+}
+
+.ControlZone {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.CanvasComponent > div > div,
+.CanvasComponent > div > div > div,
+.CanvasComponent > div > div > div > div,
+.CanvasComponent > div > div > div > div > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  display: block;
+}
+
+.CanvasComponent > div > div > div > div {
+  max-width: 100% !important;
+}
+
+.mainContent > article > div > div {
+  display: block !important;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+:root {
+  /* Dubai DS Color Palette */
+  --dds-blue-700: #004a70; /* Primary Dark */
+  --dds-blue-600: #005b8a;
+  --dds-blue-500: #0070a4; /* Primary */
+  --dds-gold-500: #a98633; /* Accent */
+  --dds-gray-900: #1a1a1a;
+  --dds-gray-700: #4d4d4d;
+  --dds-gray-500: #808080;
+  --dds-gray-300: #b2b2b2;
+  --dds-gray-200: #cccccc;
+  --dds-gray-100: #e5e5e5;
+  --dds-gray-50: #f2f2f2; /* Light Background */
+  --dds-white: #ffffff;
+  --dds-red: #d71921;
+  --dds-green: #00875a;
+
+  /* Transitions & Shadows */
+  --transition-speed: 0.3s;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  font-family: "Dubai", sans-serif;
+  background-color: var(--dds-gray-50);
+  color: var(--dds-gray-900);
+}
+
+/* Helper class for DDS primary text color */
+.text-dds-primary {
+  color: var(--dds-blue-500);
+}
+.bg-dds-primary {
+  background-color: var(--dds-blue-500);
+}
+.border-dds-primary {
+  border-color: var(--dds-blue-500);
+}
+.bg-dds-gold-500 {
+  background-color: var(--dds-gold-500);
+}
+.bg-dds-blue-700 {
+  background-color: var(--dds-blue-700);
+}
+
+/* Custom Card Style */
+.dds-card {
+  background-color: var(--dds-white);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  transition: all var(--transition-speed) ease-in-out;
+  border: 1px solid var(--dds-gray-100);
+}
+.dds-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Custom Button Style */
+.dds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all var(--transition-speed) ease-in-out;
+  border: 1px solid transparent;
+}
+.dds-btn-primary {
+  background-color: var(--dds-blue-500);
+  color: var(--dds-white);
+  border-color: var(--dds-blue-500);
+}
+.dds-btn-primary:hover {
+  background-color: var(--dds-blue-600);
+  border-color: var(--dds-blue-600);
+}
+.dds-btn-outline {
+  background-color: transparent;
+  color: var(--dds-blue-500);
+  border-color: var(--dds-blue-500);
+}
+.dds-btn-outline:hover {
+  background-color: var(--dds-blue-500);
+  color: var(--dds-white);
+}
+
+/* Section Title */
+.dds-section-title {
+  color: var(--dds-blue-700);
+  font-weight: 700;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--dds-gray-100);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.dds-section-title i {
+  color: var(--dds-blue-500);
+}
+
+/* Responsive Navbar & Dropdown */
+.navbar-links a,
+.navbar-links-button {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 4px solid transparent;
+  transition: all var(--transition-speed) ease;
+  text-decoration: inherit;
+  color: inherit;
+}
+.navbar-links a:hover,
+.navbar-links a.active,
+.navbar-links-button:hover,
+.navbar-links-button.active {
+  color: var(--dds-white);
+  background-color: rgb(20, 93, 158);
+  border-bottom-color: var(--dds-gold-500);
+}
+.dropdown-item {
+  display: block;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  color: var(--dds-gray-700);
+  border-radius: 6px;
+  transition: background-color var(--transition-speed) ease;
+  white-space: nowrap;
+}
+.dropdown-item:hover {
+  background-color: var(--dds-gray-50);
+  color: var(--dds-blue-700);
+}
+.dropdown-header {
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--dds-blue-700);
+  border-bottom: 2px solid var(--dds-gray-100);
+  margin-bottom: 0.5rem;
+}
+
+/* News Ticker Animation */
+.news-ticker {
+  animation: ticker-animation 60s linear infinite;
+}
+
+/* Carousel sizing */
+.carousel-frame {
+  width: 567px;
+  height: 1100px;
+  margin: 0 auto;
+}
+.carousel-image {
+  width: 567px;
+  height: 1100px;
+  object-fit: cover;
+}
+
+.logo-cda,
+.logo-dubai {
+  height: 4rem;
+  width: auto;
+}
+
+@keyframes ticker-animation {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.news-ticker-wrap:hover .news-ticker {
+  animation-play-state: paused;
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--dds-blue-500);
+  color: white;
+  border-radius: 50%;
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.back-to-top.show {
+  display: flex;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+.text-lg {
+  font-size: 1.125rem;
+}
+.space-y-3 > * + * {
+  margin-top: 0.75rem;
+}
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: row;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.field-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.req {
+  color: red;
+  margin-left: 3px;
+}
+
+.field-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.error-border {
+  border-color: red !important;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* scroll */
+
+/* .ant-modal-body {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+} */
+
+.ant-modal-body::-webkit-scrollbar {
+  width: 6px;
+  /* padding: 10px; */
+}
+
+.ant-modal-body::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 3px;
+}
+
+.ant-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}

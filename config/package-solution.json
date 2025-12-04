@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "cda-intranet-client-side-solution",
+    "id": "c7a8fb01-3dfb-4598-8fe9-8954a4138dc4",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "CDA Intranet description"
+      },
+      "longDescription": {
+        "default": "CDA Intranet description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "cda-intranet Feature",
+        "description": "The feature that activates elements of the cda-intranet solution.",
+        "id": "9c037c76-ef0e-4902-83f1-a40d830e7cd4",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/cda-intranet.sppkg"
+  }
+}

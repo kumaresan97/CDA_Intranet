@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "cda-intranet-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/cdaIntranet/CdaIntranetWebPart.js",
+          "manifest": "./src/webparts/cdaIntranet/CdaIntranetWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CdaIntranetWebPartStrings": "lib/webparts/cdaIntranet/loc/{locale}.js"
+  }
+}

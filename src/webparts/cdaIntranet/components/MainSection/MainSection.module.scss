@@ -1,0 +1,81 @@
+.sectionTitle {
+  font-size: 1.25rem; // text-xl
+}
+
+.gridLayout {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr)); // grid-cols-1
+  gap: 1.5rem; // gap-6
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); // sm:grid-cols-2
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); // xl:grid-cols-3
+  }
+
+  .favoritesEmptyBox {
+    grid-column: 1 / -1; // col-span-full
+    text-align: center;
+    padding: 2rem; // py-8
+    background: #f9fafb; // bg-gray-50
+    border-radius: 0.5rem; // rounded-lg
+
+    i {
+      color: #9ca3af; // text-gray-400
+      margin-bottom: 0.75rem; // mb-3
+    }
+
+    p {
+      color: #4b5563; // text-gray-600
+    }
+  }
+}
+
+.mb8 {
+  margin-bottom: 2rem; // mb-8
+}
+
+.noResults {
+  text-align: center; // text-center
+  padding-top: 4rem; // py-16
+  padding-bottom: 4rem;
+
+  i {
+    font-size: 3rem; // fa-3x
+    color: var(--dds-gray-300);
+    margin-bottom: 1rem; // mb-4
+  }
+
+  h4 {
+    font-size: 1.25rem; // text-xl
+    font-weight: 600; // font-semibold
+    color: var(--dds-gray-700);
+  }
+
+  p {
+    color: var(--dds-gray-500);
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  // Mobile – switch to single column
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
