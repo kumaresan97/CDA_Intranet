@@ -258,6 +258,46 @@ const batchDelete = async (params: {
   await batch.execute();
   return promises;
 };
+// export const getCurrentDepartment = (): string | null => {
+//   const params = new URLSearchParams(window.location.search);
+//   const dept = params.get("dept");
+//   return dept ? decodeURIComponent(dept) : null; // "dg_message" from "dg_message"
+// };
+
+export const getCurrentSelection = (): {
+  type: "dept" | "sector" | "newsPage" | "newsView" | null;
+  id: string | null;
+} => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has("NewsPage")) {
+    return { type: "newsPage", id: null };
+  }
+
+  const newsViewId = params.get("NewsView");
+  if (newsViewId) {
+    return { type: "newsView", id: newsViewId };
+  }
+
+  const dept = params.get("dept");
+  if (dept) {
+    return { type: "dept", id: decodeURIComponent(dept) };
+  }
+
+  const sector = params.get("sector");
+  if (sector) {
+    return { type: "sector", id: decodeURIComponent(sector) };
+  }
+
+  return { type: null, id: null };
+};
+
+export const goHome = (): void => {
+  // Clear dept param and reload main page
+  const url = new URL(window.location.href);
+  url.searchParams.delete("dept");
+  window.history.replaceState({}, "", url.toString());
+  window.location.reload(); // Refresh to show default page
+};
 
 export default {
   getAllUsers,
@@ -276,4 +316,7 @@ export default {
   batchUpdate,
   batchDelete,
   SPReadAttachments,
+  // getCurrentDepartment,
+  getCurrentSelection,
+  goHome,
 };

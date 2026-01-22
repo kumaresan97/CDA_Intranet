@@ -39,7 +39,7 @@
 
 
 import * as React from "react";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 
 interface Props {
     visible: boolean;
@@ -50,8 +50,12 @@ interface Props {
     okText?: string;
     cancelText?: string;
     width?: number | string;        // ⬅ added
-    bodyHeight?: string;            // ⬅ added (scroll height)
+    bodyHeight?: string;
+    /** 🔥 NEW */
+    onDelete?: () => void;
+    deleteText?: string;         // ⬅ added (scroll height)
 }
+
 
 const CustomModal = ({
     visible,
@@ -62,7 +66,10 @@ const CustomModal = ({
     okText = "Submit",
     cancelText = "Cancel",
     width = 400,                    // default width
-    bodyHeight = "60vh"             // default scroll height
+    bodyHeight = "70vh",
+    deleteText = "Delete",
+    onDelete
+    // default scroll height
 }: Props) => {
     return (
         <Modal
@@ -72,7 +79,47 @@ const CustomModal = ({
             onCancel={onCancel}
             okText={okText}
             cancelText={cancelText}
-            width={width}            // ⬅ set width
+            width={width}
+
+
+
+            footer={
+                <div style={{ display: onDelete ? "flex" : "", justifyContent: onDelete ? "space-between" : "" }}>
+
+                    {/* 🔴 LEFT – DELETE */}
+                    {onDelete && (
+                        <Button
+                            danger
+                            type="default"
+                            onClick={onDelete}
+                            style={{
+                                borderColor: "#ff4d4f",
+                                color: "#ff4d4f"
+                            }}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.background = "#ff4d4f";
+                                e.currentTarget.style.color = "#fff";
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.background = "transparent";
+                                e.currentTarget.style.color = "#ff4d4f";
+                            }}
+                        >
+                            {deleteText}
+                        </Button>
+                    )}
+
+                    {/* RIGHT – CANCEL / SUBMIT */}
+                    <div>
+                        <Button onClick={onCancel} style={{ marginRight: 8 }}>
+                            {cancelText}
+                        </Button>
+                        <Button type="primary" onClick={onOk}>
+                            {okText}
+                        </Button>
+                    </div>
+                </div>
+            }// ⬅ set width
             bodyStyle={{
                 maxHeight: bodyHeight,   // ⬅ scroll inside modal
                 overflowY: "auto",

@@ -3,9 +3,12 @@ import * as React from 'react';
 import type { ICdaIntranetProps } from './ICdaIntranetProps';
 // import { escape } from '@microsoft/sp-lodash-subset';
 import "../assets/css/styles.css";
-import Mainpage from './Mainpage';
+// import Mainpage from './Mainpage';
 import { sp } from '@pnp/sp/presets/all';
 import { graph } from '@pnp/graph/rest';
+import { LanguageProvider } from './useContext/useContext';
+import MainpageWrapper from './MainpageWrapper';
+
 // import { CascadingDropdown } from './Cascading';
 
 export default class CdaIntranet extends React.Component<ICdaIntranetProps, {}> {
@@ -29,12 +32,22 @@ export default class CdaIntranet extends React.Component<ICdaIntranetProps, {}> 
     //   hasTeamsContext,
     //   userDisplayName
     // } = this.props;
+    // const currentLang = document.documentElement.getAttribute("lang") || "en";
+    // console.log("currentLang: ", currentLang);
+
 
     return (
       <div>
 
         {/* <CascadingDropdown /> */}
-        <Mainpage context={this.props.context} />
+        <LanguageProvider context={this.props.context}>
+          {/* <Mainpage context={this.props.context} /> */}
+          <MainpageWrapper />
+
+
+        </LanguageProvider>
+
+
 
       </div>
 

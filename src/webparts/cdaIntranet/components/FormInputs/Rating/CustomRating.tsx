@@ -7,34 +7,42 @@ interface IRatingProps {
     tooltips?: string[];
     readOnly?: boolean;
     name?: string;
+    error?: any
 }
 
 const Rating: React.FC<IRatingProps> = ({
-    value = 0,
+    value,
     onChange,
     tooltips = ["terrible", "bad", "normal", "good", "wonderful"],
     readOnly = false,
-    name
+    name,
+    error
 }) => {
-    const handleChange = (val: number) => {
+    const handleRateChange = (val: number) => {
         if (onChange && name) {
             onChange(name, val);
         }
     };
 
     return (
-        <span>
-            <label htmlFor="" className="field-label"> Rating</label>
+        <div className="field">
+            <label className="field-label">
+                Rating
+                {/* {label} {required && <span className="req">*</span>} */}
+            </label>
             <Rate
                 tooltips={tooltips}
-                onChange={handleChange}
+                onChange={handleRateChange}
                 value={value}
                 disabled={readOnly}
             />
-            {value ? value
-                // <span className="ant-rate-text">{tooltips[value - 1]}</span>
+            {value ?
+                <span className="ant-rate-text">{tooltips[value - 1]}</span>
                 : ""}
-        </span>
+
+            {error && <span className="error-text">{error}</span>}
+
+        </div>
     );
 };
 

@@ -36,9 +36,11 @@ const CustomDropDown: React.FC<IReDropdownProps> = ({
             )}
 
             <Select
-                value={value ?? undefined}
+                value={value === "" || value === null ? undefined : value}
+
+                // value={value ?? undefined}
                 options={options}
-                placeholder={placeholder}
+                placeholder={placeholder ?? ""}
                 onChange={(val) => onChange(name, val)}
                 className={`field-input ${error ? "error-border" : ""}`}
                 style={{ width: "100%" }}

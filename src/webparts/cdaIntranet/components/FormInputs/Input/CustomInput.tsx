@@ -9,6 +9,7 @@ interface IReInputProps {
     required?: boolean;
     error?: string;
     [key: string]: any;
+    placeholder?: string;
 }
 
 const ReInput: React.FC<IReInputProps> = ({
@@ -19,6 +20,7 @@ const ReInput: React.FC<IReInputProps> = ({
     required,
     error,
     ...rest
+
 }) => {
     return (
         <div className="field">

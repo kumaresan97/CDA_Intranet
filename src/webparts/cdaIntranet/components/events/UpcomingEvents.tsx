@@ -8,12 +8,13 @@
 import * as React from 'react'
 import { useEffect } from 'react';
 import { EventService } from '../../../Services/Upcoming/UpcomingService';
-import ReDatePicker from '../Datepicker/CustomDatePicker';
-import ReInput from '../Input/CustomInput';
+import ReDatePicker from '../FormInputs/Datepicker/CustomDatePicker';
+import ReInput from '../FormInputs/Input/CustomInput';
 import CustomModal from '../modal/Custommodal';
 import styles from "./UpcomingEvents.module.scss"
-import { Modal } from "antd";
-import ReTextArea from '../TextArea/CustomTextArea';
+import { message, Modal, Skeleton } from "antd";
+import ReTextArea from '../FormInputs/TextArea/CustomTextArea';
+import { useLanguage } from '../useContext/useContext';
 
 // interface EventItem {
 //     title: string;
@@ -26,8 +27,10 @@ import ReTextArea from '../TextArea/CustomTextArea';
 // }
 
 // const UpcomingEvents = ({ eventsData }: Props) => {
-const UpcomingEvents = ({ eventsData }: any) => {
-    console.log("eventsData: ", eventsData);
+const UpcomingEvents = ({ eventsData, lang }: any) => {
+    // const isArabic = lang.startsWith("ar"); 
+
+    const { isAdmin, isArabic } = useLanguage()
 
 
     const today = new Date();
@@ -52,10 +55,11 @@ const UpcomingEvents = ({ eventsData }: any) => {
 
 
     const [events, setEvents] = React.useState<any[]>([]);
-    console.log("events: ", events);
 
     // MODAL STATE
     const [modalOpen, setModalOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
+
     const [isEdit, setIsEdit] = React.useState(false);
     const [editId, setEditId] = React.useState<number | null>(null);
 
@@ -67,6 +71,7 @@ const UpcomingEvents = ({ eventsData }: any) => {
         Description_En: "",
         Description_Ar: "",
         EventDate: null as Date | null,
+        isDelete: false
     });
 
     // Set field
@@ -85,7 +90,8 @@ const UpcomingEvents = ({ eventsData }: any) => {
             Event_Ar: "",
             Description_En: "",
             Description_Ar: "",
-            EventDate: null
+            EventDate: null,
+            isDelete: false
         });
         setModalOpen(true);
     };
@@ -104,11 +110,11 @@ const UpcomingEvents = ({ eventsData }: any) => {
             Description_En: record.Description_En,
             Description_Ar: record.Description_Ar,
             EventDate: new Date(record.EventDate),
+            isDelete: record.isDelete || false
 
 
         });
 
-        debugger;
 
         setModalOpen(true);
     };
@@ -118,27 +124,114 @@ const UpcomingEvents = ({ eventsData }: any) => {
 
         if (!validateForm()) return; // stop if validation fails
 
-        if (isEdit && editId) {
-            // Update
-            await EventService.update(editId, form);
+        setModalOpen(false);
+        setLoading(true);
+        try {
 
-            setEvents(prev =>
-                prev.map(ev =>
-                    ev.ID === form.ID ? { ...form, ID: editId } : ev
-                )
-            );
+            if (isEdit && editId) {
+                // Update
+                await EventService.update(editId, form);
+
+                setEvents(prev =>
+                    prev.map(ev =>
+                        ev.ID === form.ID ? { ...form, ID: editId } : ev
+                    )
+                );
+                message.success("Event updated successfully!");
 
 
-        } else {
-            // Add
-            const res = await EventService.add(form);
-            setEvents(prev => [
-                ...prev,
-                { ...form, ID: res.data.ID }
-            ]);
+
+            } else {
+                // Add
+                const res = await EventService.add(form);
+                setEvents(prev => [
+                    ...prev,
+                    { ...form, ID: res.data.ID }
+                ]);
+
+                message.success("Event added successfully!");
+
+            }
+
+        }
+        catch (err) {
+            console.error("Validation error:", err);
+            return;
+        }
+        finally {
+            setLoading(false);
         }
 
-        setModalOpen(false);
+
+    };
+
+
+
+
+
+
+    const EventSkeleton = () => {
+        return (
+            <div className={styles.contentSection}>
+                {/* LEFT IMAGE */}
+                <Skeleton.Avatar
+                    active
+                    shape="square"
+                    size={64}
+                    style={{
+                        flexShrink: 0
+                    }
+
+                    }
+                // className={styles.skelLeftImg}
+                />
+
+                {/* CENTER – TWO TEXT FIELDS */}
+                <div
+                    style={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "10px"
+                    }}
+
+                // className={styles.skelCenter}
+
+                >
+                    <Skeleton.Input
+                        active
+                        size="default"
+                        style={{
+                            width: " 60 %",
+                            height: "16px"
+                        }}
+                    // className={styles.skelLine1}
+                    />
+                    <Skeleton.Input
+                        active
+                        size="small"
+                        // className={styles.skelLine2}
+                        style={{
+                            width: "40%",
+                            height: "14px"
+                        }}
+                    />
+                </div>
+
+                {/* RIGHT IMAGE / ICON */}
+                <Skeleton.Avatar
+                    active
+                    shape="circle"
+                    size={32}
+                    style={{
+                        flexShrink: 0
+                    }
+
+                    }
+                // className={styles.skelRightImg}
+                />
+            </div>
+        );
     };
 
     // DELETE
@@ -152,14 +245,41 @@ const UpcomingEvents = ({ eventsData }: any) => {
             okType: "danger",
             cancelText: "Cancel",
             onOk: async () => {
-                await EventService.delete(id);
-                setEvents(prev => prev.filter(ev => ev.ID !== id));
+
+
+                try {
+                    setLoading(true)
+
+                    await EventService.delete(id);
+                    setEvents(prev => prev.filter(ev => ev.ID !== id));
+                    message.success("Event deleted successfully!");
+                } catch (err) {
+                    console.error(err);
+                    message.error("Failed to delete the event.");
+                    setLoading(false)
+
+                }
+                finally {
+                    setLoading(false)
+
+                }
+                // await EventService.delete(id);
+                // setEvents(prev => prev.filter(ev => ev.ID !== id));
             }
         });
 
 
 
     };
+    // let arabicMonths: any = [
+    //     "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+    //     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+    // ];
+
+    const englishMonths = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
 
 
 
@@ -182,17 +302,20 @@ const UpcomingEvents = ({ eventsData }: any) => {
     };
 
 
+
+
     useEffect(() => {
 
         const fetchEvents = async () => {
+            setLoading(true)
             const data = await EventService.getAll();
-            console.log("data: ", data);
 
             const upcoming = data?.map((event: any) => ({ ...event, EventDate: new Date(event.EventDate), dateObj: new Date(event.EventDate) }))
                 .filter((event: any) => event.dateObj >= today)
                 .sort((a: any, b: any) => a.dateObj.getTime() - b.dateObj.getTime())
                 .slice(0, 2);
             setEvents(upcoming || []);
+            setLoading(false)
         };
         fetchEvents();
 
@@ -205,10 +328,15 @@ const UpcomingEvents = ({ eventsData }: any) => {
         <div>
             <div className={` dds-card ${styles.container}`}>
                 <h3 className={`dds-section-title ${styles.subcontainer}`}>
-                    <i className="fas fa-plus" onClick={openAdd} style={{ cursor: "pointer" }}></i>
+                    {isAdmin &&
+                        <i className="fas fa-plus" onClick={openAdd} style={{ cursor: "pointer" }}></i>}
 
 
-                    <i className={`fas fa-calendar-star `}></i>الفعاليات القادمة
+                    {/* <i className={`fas fa-calendar-star `}></i>الفعاليات القادمة */}
+                    <i className={`fas fa-calendar-star `}></i>
+
+                    {isArabic ? "الفعاليات القادمة" : "Upcoming Events"}
+
                 </h3>
 
                 {/* <div className={styles.headerRow}>
@@ -227,9 +355,8 @@ const UpcomingEvents = ({ eventsData }: any) => {
                 </div> */}
                 <div id="upcoming-events-list" className={styles.upcomingEvents}>
 
-                    {events.map((event: any) => {
-                        // const day = event.dateObj.getDate();
-                        // const monthName = arabicMonths[event.dateObj.getMonth()];
+                    {/* {events.map((event: any) => {
+                        
                         const day = event?.EventDate?.getDate();
                         const monthName = arabicMonths[event?.EventDate?.getMonth()];
 
@@ -245,10 +372,10 @@ const UpcomingEvents = ({ eventsData }: any) => {
                                     </span>
                                 </div>
                                 <div className={styles.eventContent}>
-                                    <h4 className={styles.eventtitle}>{
+                                    <h4 className={styles.eventtitle}>{isArabic ? event?.Event_Ar :
                                         event?.Event_En
                                     }</h4>
-                                    <p className={styles.eventdescription}>{
+                                    <p className={styles.eventdescription}>{isArabic ? event?.Description_Ar :
                                         event?.Description_En
 
                                     }</p>
@@ -259,71 +386,170 @@ const UpcomingEvents = ({ eventsData }: any) => {
                                         className="fas fa-edit"
                                         style={{ color: "#2563eb" }}
                                         onClick={() => openEdit(event)}
-                                    // onClick={() => openModal("edit", event)}
                                     ></i>
 
                                     <i
                                         className="fas fa-trash"
                                         style={{ color: "#dc2626" }}
                                         onClick={() => deleteEvent(event.ID)}
-                                    // onClick={() => deleteEvent(event.ID)}
                                     ></i>
                                 </div>
                             </div>)
                     }
-                    )}
+                    )} */}
+
+                    {loading ? (
+
+                        EventSkeleton()
+                    ) :
+
+
+                        events.length === 0 ? (
+                            <p className={styles.errorMsg}  >
+                                {isArabic
+                                    ? "لا توجد فعاليات قادمة في الوقت الحالي."
+                                    : "No upcoming events at the moment."}
+                            </p>
+                        ) : (
+                            events.map((event: any) => {
+                                // const day = event?.EventDate?.getDate();
+                                // const monthName = arabicMonths[event?.EventDate?.getMonth()];
+                                const day = event?.EventDate?.getDate();
+                                const monthIndex = event?.EventDate?.getMonth();
+                                const monthName = isArabic ? arabicMonths[monthIndex] : englishMonths[monthIndex];
+
+                                return (
+                                    <div className={styles.contentSection} key={event.ID}>
+                                        <div className={styles.eventBox}>
+                                            <span className={styles.eventmonth}>{monthName}</span>
+                                            <span className={styles.eventday}>
+                                                {String(day).padStart(2, "0")}
+                                            </span>
+                                        </div>
+
+                                        <div className={styles.eventContent}>
+                                            <h4 className={styles.eventtitle}>
+                                                {isArabic ? event?.Event_Ar : event?.Event_En}
+                                            </h4>
+                                            <p className={styles.eventdescription}>
+                                                {isArabic ? event?.Description_Ar : event?.Description_En}
+                                            </p>
+                                        </div>
+
+                                        <div className={styles.actionButtons}>
+                                            <i
+                                                className="fas fa-edit"
+                                                style={{ color: "#2563eb" }}
+                                                onClick={() => openEdit(event)}
+                                            ></i>
+
+                                            <i
+                                                className="fas fa-trash"
+                                                style={{ color: "#dc2626" }}
+                                                onClick={() => deleteEvent(event.ID)}
+                                            ></i>
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        )}
+
 
                 </div>
                 <div className={`btn-container ${styles.viewAll}`} >
                     <a href="departments/events.html" className="dds-btn dds-btn-outline">
-                        عرض كل الفعاليات
+                        {/* عرض كل الفعاليات */}
+
+                        {isArabic ? "عرض كل الفعاليات" : "Show All Events"}
+
                     </a>
                 </div>
             </div>
 
+
+
+
+
             <CustomModal
                 visible={modalOpen}
-                title={isEdit ? "تعديل الفعالية" : "إضافة فعالية"}
+                // title={isEdit ? "تعديل الفعالية" : "إضافة فعالية"}
+
+                title={
+                    // isArabic
+                    // ? (isEdit ? "تعديل الفعالية" : "إضافة فعالية")
+                    // : 
+                    isEdit ? "Edit Event" : "Add Event"}
                 onOk={saveEvent}
+                width={500}
                 onCancel={() => {
-                    setErrors({})
-
-                    setModalOpen(false)
-                }
-                }
+                    setErrors({});
+                    setModalOpen(false);
+                }}
             >
-                <ReInput label="Event English" name="Event_En" value={form.Event_En} onChange={handleChange} required
-                    error={errors?.Event_En}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+                    {/* LEFT COLUMN – English */}
+                    <div>
+                        <ReInput
+                            label="Event (EN)"
+                            placeholder='Event'
+                            name="Event_En"
+                            value={form.Event_En}
+                            onChange={handleChange}
+                            required
+                            error={errors?.Event_En}
+                        />
+                        <ReTextArea
+                            label="Description (EN)"
+                            placeholder='Description'
+                            name="Description_En"
+                            value={form.Description_En}
+                            onChange={handleChange}
+                            required
+                            error={errors?.Description_En}
+                        />
+                    </div>
 
-                />
-                <ReInput label="Event Arabic" name="Event_Ar" value={form.Event_Ar} onChange={handleChange} required
-                    error={errors?.Event_Ar}
-                />
-                {/* <ReInput label="Description (English)" name="Description_En" value={form.Description_En} onChange={handleChange} required
-                    error={errors?.Description_En}
-                /> */}
+                    {/* RIGHT COLUMN – Arabic */}
+                    <div>
+                        <ReInput
+                            label="Event (AR)"
+                            name="Event_Ar"
+                            placeholder='Event'
+                            value={form.Event_Ar}
+                            onChange={handleChange}
+                            required
+                            error={errors?.Event_Ar}
+                        />
+                        <ReTextArea
+                            label="Description (AR)"
+                            name="Description_Ar"
+                            placeholder='Description'
+                            value={form.Description_Ar}
+                            onChange={handleChange}
+                            required
+                            error={errors?.Description_Ar}
+                        />
+                    </div>
 
-
-                <ReTextArea label="Description (EN)" name="Description_En"
-                    value={form.Description_En} onChange={handleChange}
-                    required error={errors?.Description_En}
-                />
-                {/* <ReInput label="Description Arabic" name="Description_Ar" value={form.Description_Ar} onChange={handleChange} required
-                    error={errors?.Description_Ar}
-                /> */}
-
-                <ReTextArea label="Description (AR)" name="Description_Ar"
-                    value={form.Description_Ar} onChange={handleChange}
-                    required error={errors?.Description_Ar}
-                />
-                <ReDatePicker label="Event Date" name="EventDate" value={form.EventDate} onChange={handleChange} required
-                    error={errors?.EventDate}
-                />
+                    {/* DATE FIELD FULL WIDTH */}
+                    <div style={{ gridColumn: "span 2" }}>
+                        <ReDatePicker
+                            label="Event Date"
+                            name="EventDate"
+                            value={form.EventDate}
+                            onChange={handleChange}
+                            required
+                            error={errors?.EventDate}
+                        />
+                    </div>
+                </div>
             </CustomModal>
+
+
 
 
         </div>
     )
 }
 
-export default UpcomingEvents
+export default React.memo(UpcomingEvents)

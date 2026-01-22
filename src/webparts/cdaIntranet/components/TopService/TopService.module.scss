@@ -25,10 +25,12 @@
     background-color: var(--dds-blue-500);
   }
   .serviceTitle {
+    margin: 0;
     font-weight: 600; // font-semibold
     font-size: 0.875rem; // text-sm
     color: #374151; // text-gray-700
     transition: color 0.2s ease; // transition
+    text-align: start;
 
     // group-hover:text-blue-600
     .serviceItem:hover & {

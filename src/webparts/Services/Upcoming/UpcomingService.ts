@@ -10,17 +10,19 @@ export const EventService = {
     try {
       const items = await sp.web.lists
         .getByTitle("UpcomingEvents")
-        .items.select(
+        .items.filter("isDelete ne 1")
+        .select(
           "Id",
           "Event_En",
           "Event_Ar",
           "Description_En",
           "Description_Ar",
-          "EventDate"
-        )();
+          "EventDate",
+          "isDelete"
+        )
+        .get();
 
       // 🔥 Format items
-      debugger;
       const formatted = items?.map((item: any) => ({
         ID: item.Id,
         Event_En: item.Event_En || "",
@@ -28,9 +30,8 @@ export const EventService = {
         Description_En: item.Description_En || "",
         Description_Ar: item.Description_Ar || "",
         EventDate: item.EventDate,
+        isDelete: item.isDelete || false,
       }));
-
-      console.log("formatted: ", formatted);
 
       return formatted;
     } catch (err) {
@@ -45,6 +46,7 @@ export const EventService = {
       Description_En: data.Description_En,
       Description_Ar: data.Description_Ar,
       EventDate: data.EventDate,
+      isDelete: false,
     });
   },
 
@@ -59,6 +61,10 @@ export const EventService = {
   },
 
   delete: async (id: number) => {
-    return sp.web.lists.getByTitle("UpcomingEvents").items.getById(id).delete();
+    // return sp.web.lists.getByTitle("UpcomingEvents").items.getById(id).delete();
+    return sp.web.lists
+      .getByTitle("UpcomingEvents")
+      .items.getById(id)
+      .update({ isDelete: true });
   },
 };

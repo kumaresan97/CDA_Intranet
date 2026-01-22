@@ -11,6 +11,7 @@ interface ReTextAreaProps {
     required?: boolean;
     error?: string;
     rows?: number;
+    autoSize?: boolean;
     onChange: (name: string, value: string) => void;
 }
 
@@ -23,30 +24,11 @@ const ReTextArea: React.FC<ReTextAreaProps> = ({
     error = "",
     rows = 4,
     onChange,
+    autoSize = true,
     ...rest
 }) => {
     return (
-        // <div className="mb-4">
-        //   {/* LABEL */}
-        //   <label className="block mb-1 font-semibold text-gray-700">
-        //     {label} {required && <span className="text-red-500">*</span>}
-        //   </label>
 
-        //   {/* TEXTAREA */}
-        //   <TextArea
-        //     rows={rows}
-        //     name={name}
-        //     value={value}
-        //     placeholder={placeholder}
-        //     className={`rounded-lg ${error ? "border-red-500" : ""}`}
-        //     onChange={(e) => onChange(name, e.target.value)}
-        //   />
-
-        //   {/* ERROR MSG */}
-        //   {error && (
-        //     <p className="text-red-500 text-xs mt-1">{error}</p>
-        //   )}
-        // </div>
 
 
 
@@ -57,8 +39,11 @@ const ReTextArea: React.FC<ReTextAreaProps> = ({
 
             <TextArea
                 {...rest}
+                placeholder={placeholder ?? ""}
 
-                value={value}
+                // style={{ resize: autoSize ? "vertical" : "none" }}
+                autoSize={{ minRows: rows, maxRows: 5 }}
+                value={value ?? undefined}
                 onChange={(e) => onChange(name, e.target.value)}
                 className={`field-input ${error ? "error-border" : ""}`}
             />

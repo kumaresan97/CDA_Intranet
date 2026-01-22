@@ -1,7 +1,9 @@
 import * as React from 'react'
+import { useLanguage } from '../useContext/useContext';
 import styles from "./Search.module.scss"
 
 const Search = ({ value, onChange }: any) => {
+    const { isArabic } = useLanguage();
     return (
 
 
@@ -10,8 +12,13 @@ const Search = ({ value, onChange }: any) => {
                 type="text"
                 id="searchInput"
                 value={value}
-                onChange={(e) => onChange(e.target.value)}                // className="w-full pl-12 pr-4 py-3 text-base border-2 border-dds-gray-200 rounded-full focus:ring-2 focus:ring-dds-gold-500 focus:border-dds-gold-500 outline-none transition-all"
-                placeholder="ابحث عن خدمة، تطبيق، أو سياسة..."
+                onChange={(e) => onChange(e.target.value)}
+                // placeholder="ابحث عن خدمة، تطبيق، أو سياسة..."
+                placeholder={
+                    isArabic
+                        ? "ابحث عن خدمة، تطبيق، أو سياسة..."
+                        : "Search for a service, application, or policy..."
+                }
             />
             <i
                 className={`fas fa-search ${styles.searchIcon} `}

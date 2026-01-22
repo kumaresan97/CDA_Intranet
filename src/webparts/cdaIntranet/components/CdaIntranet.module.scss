@@ -4,7 +4,7 @@
   margin-right: auto;
   padding: 1rem;
   background-color: var(--dds-gray-50);
-
+  font-family: "Dubai", sans-serif;
   @media (min-width: 768px) {
     // md:p-6
     padding: 1.5rem;
@@ -15,38 +15,11 @@
     padding: 2rem;
   }
 
-  // .gridwrapper {
-  //   display: grid;
-  //   grid-template-columns: repeat(12, 1fr);
-  //   gap: 1.5rem;
-
-  //   .leftContent {
-  //     grid-column: span 12;
-
-  //     @media (min-width: 1024px) {
-  //       grid-column: span 8;
-  //     }
-  //   }
-
-  //   .rightSide {
-  //     grid-column: span 12;
-
-  //     .StickyContainer {
-  //       position: sticky;
-  //       top: 7rem;
-  //       margin-top: 1rem;
-  //     }
-
-  //     @media (min-width: 1024px) {
-  //       grid-column: span 4;
-  //     }
-  //   }
-  // }
-
   .gridwrapper {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 1.5rem;
+    position: relative;
 
     .leftContent {
       grid-column: span 12;
@@ -59,18 +32,23 @@
     .rightSide {
       grid-column: span 12;
 
+      // display: flex;
+      // flex-direction: column;
+      // align-self: start;
+
+      @media (min-width: 1024px) {
+        grid-column: span 4;
+      }
+
       .StickyContainer {
         position: sticky;
         top: 7rem;
-        margin-top: 1.5rem;
+        // margin-top: 1.5rem;
 
         // This will create spacing between children (same as space-y-6)
         > * + * {
           margin-top: 1.5rem; // 6 * 0.25rem = 1.5rem
         }
-      }
-      @media (min-width: 1024px) {
-        grid-column: span 4;
       }
     }
   }
@@ -91,4 +69,11 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+.fullWidthRow {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

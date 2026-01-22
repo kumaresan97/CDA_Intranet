@@ -1,0 +1,54 @@
+.resourceGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 2rem;
+  row-gap: 0.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fileIconImg {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+    object-fit: contain;
+    text-align: center;
+    vertical-align: middle;
+    // color: #c9a24d;
+  }
+
+  .downloadIcon {
+    color: var(--dds-gray-300);
+    margin-right: auto;
+    cursor: pointer;
+  }
+}
+
+.noData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 14px;
+  padding: 24px;
+  text-align: center;
+  gap: 8px;
+
+  i {
+    font-size: 32px;
+  }
+}
+.resourceCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}

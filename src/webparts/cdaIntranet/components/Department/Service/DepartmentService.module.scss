@@ -1,0 +1,182 @@
+.servicesSection {
+  .ddsSectionTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .servicesContainer {
+    & > * + * {
+      margin-top: 1.5rem; // space-y-6
+    }
+  }
+
+  .departmentSection {
+    h3 {
+      font-weight: 700;
+      font-size: 1.25rem; // text-xl
+      color: var(--dds-blue-700); // text-dds-blue-700
+      margin-bottom: 0.75rem; // mb-3
+      // text-align: right;
+    }
+
+    .serviceGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      //   grid-template-columns: 1fr;
+      gap: 1rem;
+
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      @media (min-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .serviceCard {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+
+        .serviceIcon {
+          width: 2rem;
+          height: 2rem;
+          object-fit: contain;
+          //   flex-shrink: 0;
+        }
+
+        .serviceTitleContainer {
+          h4 {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--dds-blue-700);
+            margin: 0;
+          }
+        }
+
+        /* ✅ ACTION BUTTONS */
+        // .cardActions {
+        //   position: absolute;
+        //   top: 8px;
+        //   inset-inline-end: 8px;
+        //   display: flex;
+        //   gap: 8px;
+        //   z-index: 5;
+
+        //   i {
+        //     cursor: pointer;
+        //     font-size: 0.9rem;
+        //     color: #6b7280;
+
+        //     &:hover {
+        //       color: #0b4d6d;
+        //     }
+        //   }
+        // }
+
+        .cardActions {
+          position: absolute;
+          top: 10px;
+          inset-inline-end: 10px;
+
+          i {
+            cursor: pointer;
+          }
+
+          .actionMenu {
+            display: none;
+            margin-top: 6px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            padding: 6px;
+
+            i {
+              display: block;
+              padding: 6px;
+              font-size: 14px;
+
+              &:hover {
+                background: #f3f4f6;
+              }
+            }
+          }
+
+          &:hover {
+            .actionMenu {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .noData {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    color: #9ca3af;
+    font-size: 0.95rem;
+
+    i {
+      font-size: 1.2rem;
+    }
+  }
+
+  //   .serviceCard {
+  //     display: flex;
+  //     position: relative;
+  //     align-items: flex-start;
+  //     gap: 1rem;
+  //     padding: 1rem;
+  //     background-color: #ffffff;
+  //     border: 1px solid #e5e7eb;
+  //     border-radius: 0.5rem;
+  //     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  //     .serviceIcon {
+  //       font-size: 1.5rem;
+  //       color: #c9a24d;
+  //       margin-top: 0.25rem;
+  //       width: 2rem;
+  //       text-align: center;
+  //     }
+
+  //     .cardActions {
+  //       position: absolute;
+  //       top: 8px;
+  //       right: 8px;
+  //       display: flex;
+  //       gap: 8px;
+
+  //       i {
+  //         cursor: pointer;
+  //         font-size: 0.9rem;
+  //         color: #6b7280;
+
+  //         &:hover {
+  //           color: #0b4d6d;
+  //         }
+  //       }
+  //     }
+
+  //     .serviceTitleContainer {
+  //       h4 {
+  //         font-weight: 700;
+  //         font-size: 1.125rem;
+  //         color: var(--dds-blue-700);
+  //       }
+  //     }
+  //   }
+}

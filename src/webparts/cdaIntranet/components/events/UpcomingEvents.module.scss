@@ -38,7 +38,17 @@
     line-height: 1.75rem;
   }
   .upcomingEvents {
-    margin-top: 1rem;
+    /* same as Tailwind space-y-4 */
+    > * + * {
+      margin-top: 1rem; // 16px
+    }
+    // margin-top: 1rem;
+    .errorMsg {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #6b7280;
+      padding: 1rem 0;
+    }
 
     .contentSection {
       display: flex;
@@ -85,6 +95,7 @@
         flex: 1; // take all remaining space
         min-width: 0; // allow ellipsis if needed
         word-break: break-word; // handle long text
+        text-align: right;
       }
 
       .actionButtons {
@@ -128,6 +139,43 @@
       width: 100%;
       font-size: 0.875rem;
       line-height: 1.25rem;
+    }
+  }
+
+  /* Container  for skeleton loading*/
+  .contentSection {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    /* Left image */
+    .skelLeftImg {
+      flex-shrink: 0;
+    }
+
+    /* Center text */
+    .skelCenter {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* First text line */
+    .skelLine1 {
+      width: 60%;
+      height: 16px;
+    }
+
+    /* Second text line */
+    .skelLine2 {
+      width: 40%;
+      height: 14px;
+    }
+
+    /* Right image */
+    .skelRightImg {
+      flex-shrink: 0;
     }
   }
 }

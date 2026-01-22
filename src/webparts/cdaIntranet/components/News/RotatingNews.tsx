@@ -1,7 +1,10 @@
 import * as  React from 'react'
 import styles from "./RotatingNews.module.scss"
 
-const RotatingNews = ({ newsData }: any) => {
+const RotatingNews = ({ newsData, lang }: any) => {
+
+    const langs = lang.startsWith("ar"); // true if Arabic
+
     const visibleNews = newsData.slice(0, 7);
     const tickerList = [...visibleNews, ...visibleNews];
     return (
@@ -11,7 +14,11 @@ const RotatingNews = ({ newsData }: any) => {
                 <div className={styles.RotatingNewsInner} >
                     <div className={styles.flexRow}>
                         <span className={styles.badge}>
-                            <i className="fas fa-bullhorn mr-2"></i>الأخبار</span >
+                            <i className="fas fa-bullhorn mr-2"></i>
+                            {/* الأخبار */}
+                            {langs ? "الأخبار" : "News"}
+
+                        </span >
                         <div className={`${styles.fullFlex} news-ticker-wrap`}>
                             <div className={`news-ticker ${styles.absoluteFlex}`}
                             >
@@ -19,7 +26,7 @@ const RotatingNews = ({ newsData }: any) => {
                                 {tickerList.map((news, index) => (
                                     <React.Fragment key={index}>
                                         <a href="coming_soon.html" className={styles.newsItem}>
-                                            {news}
+                                            {langs ? news.ar : news.en}
                                         </a>
 
                                         {/* add bullet separator except the last item */}
@@ -38,4 +45,4 @@ const RotatingNews = ({ newsData }: any) => {
     )
 }
 
-export default RotatingNews
+export default React.memo(RotatingNews)

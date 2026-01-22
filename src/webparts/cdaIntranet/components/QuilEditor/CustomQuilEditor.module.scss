@@ -1,0 +1,33 @@
+.editorWrapper {
+  background-color: #fff;
+  width: 100%;
+  .ql-toolbar.ql-snow {
+    background: #ccc !important;
+  }
+
+  .ql-toolbar {
+    background-color: #ccc;
+    border: 1px solid #ddd;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .ql-container {
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  .ql-editor {
+    font-size: 14px;
+    height: 200px !important;
+    font-family: "Inter", sans-serif;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    max-width: 100%;
+  }
+}

@@ -212,19 +212,18 @@
 
 import * as React from 'react';
 // import { Button } from 'antd';
-import CustomDragandDrop from '../DargandDrop/CustomDragandDrop';
-import CustomModal from '../modal/Custommodal';
 import styles from "./NewsCarousel.module.scss";
-import { Modal } from "antd";
+import { Empty, Skeleton } from "antd";
 
-import { addNewsImage, deleteNewsImage, getNewsImages, INewsImage } from '../../../Services/NewsCarousel/NewsCarousel';
+import { getNewsList, INewsImage } from '../../../Services/NewsCarousel/NewsCarousel';
+import { useLanguage } from '../useContext/useContext';
 
 const NewsCarousel = () => {
+    const { isArabic } = useLanguage()
+
 
     const [images, setImages] = React.useState<INewsImage[]>([]);
-    const [modalOpen, setModalOpen] = React.useState(false);
-    const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-    const [editingImage, setEditingImage] = React.useState<INewsImage | null>(null);
+    const [isloading, setIsLoading] = React.useState(false)
 
     const slideRef = React.useRef<HTMLDivElement[]>([]);
     const currentIndex = React.useRef(0);
@@ -232,9 +231,12 @@ const NewsCarousel = () => {
 
     /** Load Images */
     const loadImages = async () => {
-        const data = await getNewsImages();
-        console.log("data: ", data);
+        setIsLoading(true)
+
+        const data: any = await getNewsList(true);
         setImages(data);
+        setIsLoading(false)
+
     };
 
     React.useEffect(() => { loadImages(); }, []);
@@ -259,38 +261,19 @@ const NewsCarousel = () => {
 
     }, [images, hovering]);
 
-    /** Add or Update Submit */
-    const handleSave = async () => {
-        if (!selectedFile) return;
-
-        if (editingImage) {
-            // Delete old file, add new file
-            await deleteNewsImage(editingImage.Name);
-            await addNewsImage(selectedFile);
-        } else {
-            // Add new file
-            await addNewsImage(selectedFile);
-        }
-
-        setSelectedFile(null);
-        setEditingImage(null);
-        setModalOpen(false);
-        loadImages();
-    };
 
 
-    const showDeleteConfirm = (img: INewsImage) => {
-        Modal.confirm({
-            title: "Delete Image?",
-            content: "Are you sure you want to delete this image?",
-            okText: "Delete",
-            okType: "danger",
-            cancelText: "Cancel",
-            onOk: async () => {
-                await deleteNewsImage(img.Name);
-                loadImages();
-            }
-        });
+
+
+
+    const updateNewsQueryParam = (): void => {
+        const url = new URL(window.location.href);
+
+        url.searchParams.delete("dept");
+        url.searchParams.set("NewsPage", "true");
+
+        window.history.replaceState({}, "", url.toString());
+        window.dispatchEvent(new PopStateEvent("popstate"));
     };
 
 
@@ -306,32 +289,52 @@ const NewsCarousel = () => {
             <div className={`dds-card ${styles.container}`}>
 
                 {/* Header */}
-                <div className='dds-section-title' style={{ display: "flex", justifyContent: "space-between" }}>
-                    <h3 className={`text-lg ${styles.subcontainer}`}>
-                        <i className="fas fa-newspaper" /> أحدث الأخبار
+                <div className='dds-section-title'
+                // style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                    <h3 className={`text-lg ${styles.subcontainer}`} onClick={updateNewsQueryParam} style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+
+                        {/* {isAdmin &&
+
+                            <i className="fas fa-plus"
+                                style={{ cursor: "pointer", marginLeft: "10px", fontSize: "1.125rem", color: "var(--dds-blue-500)" }}
+                                onClick={() => {
+                                    setModalOpen(true);
+                                    setEditingImage(null);
+                                    setSelectedFile(null)
+                                    setImageError("");
+
+                                }} />
+                        } */}
+                        <i className="fas fa-newspaper" style={{
+                            ...(isArabic ? { marginLeft: "10px" } : { marginRight: "10px" })
+
+
+                        }} /> {isArabic ? "أحدث الأخبار" : "Latest News"}
+
+                        {/* <i className="fas fa-newspaper" /> أحدث الأخبار */}
                     </h3>
 
                     {/* Add Button */}
-                    <i className="fas fa-plus"
-                        style={{ cursor: "pointer", fontSize: "1.125rem", color: "var(--dds-blue-500)" }}
-                        onClick={() => {
-                            setModalOpen(true); setEditingImage(null)
-                                ;
 
-                            setSelectedFile(null)
-                        }} />
                 </div>
 
                 {/* CAROUSEL */}
-                <div className={styles.carouselcontainer}>
-                    {images.map((img, index) => (
+
+                {/* <div className={styles.carouselcontainer}>
+
+
+
+                    {
+
+
+                    images.map((img, index) => (
                         <div
                             key={img.Name}
                             ref={(el) => (slideRef.current[index] = el!)}
                             className={`${styles.carouselitem} ${index === 0 ? "" : styles.hidden}`}
                             onMouseEnter={() => setHovering(true)}
                             onMouseLeave={() => setHovering(false)}
-                        // style={{ position: "relative" }}
                         >
                             <img
                                 src={img.ServerRelativeUrl}
@@ -361,27 +364,72 @@ const NewsCarousel = () => {
                                     onClick={() => showDeleteConfirm(img)}
                                 />
                             </div>
+                        </div>
+                    ))}
+                </div> */}
 
+                <div className={styles.carouselcontainer}>
+
+                    {/* 1️⃣ Loading state */}
+                    {isloading && (
+                        <div style={{
+                            width: "100%",
+                            height: "100%"
+                        }}>
+                            <Skeleton.Image
+                                active
+                                style={{
+                                    width: "100% !important",
+                                    height: "100% !important",
+                                    borderRadius: "8px",
+                                }}
+                            ></Skeleton.Image>
+                            {/* <Skeleton.Input
+                                active
+                                style={{ width: "100%", height: "100%" }}
+                            // /> */}
+                        </div>
+
+                        // />
+                    )}
+
+                    {/* 2️⃣ No images */}
+                    {!isloading && images.length === 0 && (
+                        <div style={{
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center"
+                        }}>
+                            <Empty
+                                description="No images available"
+                                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                            />
+                        </div>
+                    )}
+
+                    {/* 3️⃣ Images carousel */}
+                    {!isloading && images.length > 0 && images.map((img, index) => (
+                        <div
+                            key={img.Name}
+                            ref={(el) => (slideRef.current[index] = el!)}
+                            className={`${styles.carouselitem} ${index === 0 ? "" : styles.hidden}`}
+                            onMouseEnter={() => setHovering(true)}
+                            onMouseLeave={() => setHovering(false)}
+                        >
+                            <img
+                                src={img.ServerRelativeUrl}
+                                alt="news"
+                            />
 
 
                         </div>
                     ))}
+
                 </div>
             </div>
 
-            {/* ADD / EDIT MODAL */}
-            <CustomModal
-                visible={modalOpen}
-                onOk={handleSave}
-                onCancel={() => {
-                    setModalOpen(false);
-                    setSelectedFile(null);
-                    setEditingImage(null);
-                }}
-                title={editingImage ? "Edit Image" : "Add Image"}
-            >
-                <CustomDragandDrop file={selectedFile} setFile={setSelectedFile} />
-            </CustomModal>
+
         </>
     );
 };

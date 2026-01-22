@@ -1,87 +1,170 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 
-
+import { Skeleton } from 'antd';
 import * as React from 'react'
+import { getSpeechPageData } from '../../../Services/getManagerspeech';
 import styles from "./HeroSection.module.scss"
 const logo = require("../../assets/images/mujtamana_logo.svg")
 
-const HeroSection = () => {
-    return (
-        <div>
+const HeroSection = ({ lang, loading }: any) => {
+    const langs = lang.startsWith("ar");
+    const [speechdata, setspeechdata] = React.useState<any[]>([]);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
+    const updateQueryParam = (value: string): void => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('dept', value);
+        window.history.replaceState({}, '', url.toString());
+        window.dispatchEvent(new PopStateEvent('popstate', { state: null }));
 
+    };
+
+    const getSpeechPageDatas = async () => {
+
+        setIsLoading(true)
+
+        try {
+            let data = await getSpeechPageData();
+            setspeechdata(data ?? []);
+
+        }
+        catch (error) {
+            console.log(error);
+
+
+        }
+        finally {
+            setIsLoading(false)
+
+
+        }
+    }
+
+
+    const HeroSkeleton = () => {
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "50px 32px",
+                    borderRadius: "16px",
+                    background: "#fff",
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+                    direction: "rtl",
+                    gap: "24px",
+                    marginBottom: "2rem"
+
+                }}
+            >
+                {/* RIGHT: Profile Image */}
+                <div style={{
+                    width: "10%"
+                }}>
+                    <Skeleton.Avatar
+                        active
+                        size={96}
+                        shape="circle"
+                    />
+                </div>
+
+                {/* CENTER: Text content */}
+                <div style={{ flex: 1, padding: "0 24px" }}>
+                    <Skeleton.Input
+                        active
+                        size="default"
+                        style={{ width: "40%", marginBottom: 12 }}
+                    />
+                    <Skeleton.Input
+                        active
+                        size="small"
+                        style={{ width: "90%", marginBottom: 8 }}
+                    />
+
+                    <Skeleton.Input
+                        active
+                        size="small"
+                        style={{ width: "25%" }}
+                    />
+                </div>
+
+                {/* LEFT: Logos */}
+                <div
+                    style={{
+                        width: "10%",
+                        display: "flex",
+                        alignItems: "center",
+                        // gap: "16px"
+                    }}
+                >
+
+                    <Skeleton.Avatar
+                        active
+                        size={64}
+                        shape="square"
+                    />
+                </div>
+            </div>
+        );
+    };
+
+
+
+    React.useEffect(() => {
+        getSpeechPageDatas()
+    }, []);
+    return isLoading ? HeroSkeleton() : (
+        <div>
             {/* <!-- NEW: Combined Header Section --> */}
             <section className="mb-8" style={{
                 marginBottom: "2rem"
             }}>
-                {/* <!-- REVERTED: Original order --> */}
-                <div
-
-                    // className="flex flex-col lg:flex-row justify-between items-center gap-8 mb-8"
-                    className={styles.heroContainer}
-                >
-                    {/* <!-- Combined DG Message and Logo Section --> */}
-                    <div
-                        // className="w-full order-1"
-                        className={styles.logoSection}
-                    >
-                        <div
-                            className={`dds-card ${styles.cardContainer}`}
-                        // className="dds-card flex flex-col md:flex-row items-center gap-8 p-6 bg-gradient-to-r from-blue-50 to-white border-l-8 border-dds-gold-500 h-full"
-                        >
-                            {/* <!-- Images Container --> */}
-                            <div
-                                className={styles.imagesContainer}
-                            // className="flex items-center justify-center gap-6 w-full md:w-auto"
-                            >
+                <div className={styles.heroContainer} >
+                    <div className={styles.logoSection}>
+                        <div className={`dds-card ${styles.cardContainer}`} >
+                            <div className={styles.imagesContainer}  >
                                 <img
-                                    src="https://www.cda.gov.ae/ar/MediaCenter/News/PublishingImages/Hessa%20Bu%20Humaid.jpg"
+                                    src={speechdata[0]?.image}
                                     alt="معالي حصة بنت عيسى بوحميد"
+                                    loading='lazy'
                                     className={styles.image}
-                                // className="rounded-full shadow-lg w-24 h-24 md:w-32 md:h-32 object-cover border-4 border-white"
                                 />
                             </div>
-                            {/* <!-- DG Message Text --> */}
-                            <div
-                                className={styles.messageSecction}
-                            // className="flex-grow text-center md:text-right"
+                            <div className={styles.messageSecction}
+
+                                style={{
+                                    textAlign: langs ? "right" : "left"
+                                }}
                             >
-                                <h3
-                                    className={styles.Title}
-                                // className="text-xl md:text-2xl font-bold text-dds-blue-700 mb-1"
+                                <h3 className={styles.Title}
                                 >
-                                    {/* كلمة المدير العام */}
-                                    General Manager's Speech
-
-
+                                    {langs ? speechdata[0]?.titleAr : speechdata[0]?.title}
 
                                 </h3>
-                                <p
-                                    className={styles.message}
-                                // className="mt-2 text-dds-gray-900 text-sm leading-relaxed"
-
-                                >
-                                    {/* يسرنا في هيئة تنمية المجتمع أن نواصل مسيرتنا في خدمة وتنمية
-                                    المجتمع، بالتعاون مع مختلف الجهات الحكومية، بهدف تعزيز سعادة
-                                    الأفراد وجودة حياتهم. */}
-
-                                    We at the Community Development Authority are pleased to continue our journey in serving and developing the community, in cooperation with various government agencies, with the aim of enhancing the happiness of individuals and their quality of life.
+                                <p className={styles.message} >
+                                    {langs ? speechdata[0]?.About_Ar : speechdata[0]?.About_En}
                                 </p>
                                 <a
-                                    href="departments/dg_message.html"
-                                    className={styles.link}
-                                // className="text-sm font-bold text-dds-primary hover:underline mt-2 inline-block"
-                                >اقرأ الرسالة كاملة
-                                    <i className="fas fa-arrow-left mr-1 text-xs"></i ></a>
+                                    onClick={() => {
+                                        updateQueryParam("dg_message")
+                                    }}
+                                    className={styles.link}  >
+                                    {langs ? "اقرأ الرسالة كاملة" : "Read full message"}
+                                    <i className={langs ? "fas fa-arrow-left " : "fas fa-arrow-right"}
+                                        style={{
+                                            marginRight: langs ? "0.25rem" : 0,
+                                            marginLeft: langs ? 0 : "0.25rem"
+                                        }}></i ></a>
                             </div>
                             <div
                                 className={styles.iconRow}
-                            // className="flex items-center justify-center gap-6 w-full md:w-auto"
                             >
                                 <img
+                                    loading='lazy'
                                     src={logo}
                                     alt="شعار مجتمعنا"
                                     className={styles.img}
-                                // className="max-h-32 md:max-h-40 object-contain"
                                 />
                             </div>
                         </div>
