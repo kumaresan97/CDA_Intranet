@@ -191,7 +191,6 @@ const ResourceSection: React.FC<ResourceSectionProps> = ({
     const handleOk = async () => {
         if (!validateForm()) return;
 
-        // 1️⃣ Close modal immediately
         handleCancel();
 
         // 2️⃣ Show loader
@@ -526,6 +525,8 @@ const ResourceSection: React.FC<ResourceSectionProps> = ({
                                 // setFile={(file) => setForm({ ...form, Icon: file })}
                                 iconUrl={form.iconUrl}
                                 fileName={form.fileName}
+                                accept="image/*"
+
                                 error={errors.Icon}
                                 label={"Icon"}
                                 required

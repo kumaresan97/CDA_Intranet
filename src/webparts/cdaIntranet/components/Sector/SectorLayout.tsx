@@ -821,7 +821,7 @@ const SectorLayout = ({ id, home }: any) => {
 
 
 
-            <footer className={styles.footer}>
+            <footer className={departments?.length === 0 ? `common-footer ${styles.footer}` : styles.footer}>
                 <div className={styles.container}>
                     {/* <p>
                         &copy; {year} جميع الحقوق محفوظة لهيئة تنمية المجتمع - دبي.
@@ -838,25 +838,25 @@ const SectorLayout = ({ id, home }: any) => {
 
 
 
+            {isAdmin &&
 
-
-            <CustomModal
-                visible={isopen}
-                title="Add"
-                width={800}
-                onCancel={() => {
-                    setForm({ ...emptyDepartment });
-                    setErrors({});
-                    setIsopen(false)
-                }}
-                onOk={() => {
-                    saveDepartment();
-                    // setIsopen(false)
-                }}
-                onDelete={form.id ? () => deleteDepartment(form.id,) : undefined}
-                deleteText="Delete " >
-                <>
-                    {/* <Button onClick={() => {
+                <CustomModal
+                    visible={isopen}
+                    title="Add"
+                    width={800}
+                    onCancel={() => {
+                        setForm({ ...emptyDepartment });
+                        setErrors({});
+                        setIsopen(false)
+                    }}
+                    onOk={() => {
+                        saveDepartment();
+                        // setIsopen(false)
+                    }}
+                    onDelete={form.id ? () => deleteDepartment(form.id,) : undefined}
+                    deleteText="Delete " >
+                    <>
+                        {/* <Button onClick={() => {
 
                             if (form?.Url) {
                                 window.open(form.Url, "_blank", "noopener,noreferrer");
@@ -864,7 +864,7 @@ const SectorLayout = ({ id, home }: any) => {
                         }
                         }>Click</Button> */}
 
-                    {/* {isEditMode &&
+                        {/* {isEditMode &&
 
                         <i
                             className="fas fa-external-link-alt linkIcon"
@@ -879,109 +879,111 @@ const SectorLayout = ({ id, home }: any) => {
                         />
                     } */}
 
-                    <div className="form-flex-tiles">
+                        <div className="form-flex-tiles">
 
-                        <div className="form-row">
-                            <ReInput
-                                label="Title (EN)"
-                                name="Title"
-                                placeholder='Title'
-                                value={form.Title}
-                                onChange={handleChange}
+                            <div className="form-row">
+                                <ReInput
+                                    label="Title (EN)"
+                                    name="Title"
+                                    placeholder='Title'
+                                    value={form.Title}
+                                    onChange={handleChange}
 
+                                    required
+                                    error={errors.Title}
+                                />
+
+                                <ReInput
+                                    label="Title (AR)"
+                                    name="Title_Ar"
+                                    placeholder='Title'
+                                    value={form.Title_Ar}
+                                    onChange={handleChange}
+                                    required
+                                    error={errors.Title_Ar}
+                                />
+                            </div>
+                            <div className="form-row">
+                                <ReTextArea
+                                    label="Description (EN)"
+                                    placeholder=' Description_En'
+                                    name="Description"
+                                    value={form.Description}
+                                    onChange={handleChange}
+                                    required
+                                    error={errors.Description}
+                                    rows={3}
+                                    autoSize={false}
+
+
+                                />
+                                <ReTextArea
+                                    label=" Description (AR)"
+                                    placeholder=' Description_Ar'
+                                    name="Description_Ar"
+                                    value={form.Description_Ar}
+                                    onChange={handleChange}
+                                    required
+                                    error={errors.Description_Ar}
+                                    rows={3}
+                                    autoSize={false}
+
+                                />
+                            </div>
+                            <div className='form-row'>
+                                <ReTextArea
+                                    label="About (EN)"
+                                    placeholder='About'
+                                    name="About"
+                                    value={form.About}
+                                    onChange={handleChange}
+                                    required
+                                    error={errors.About}
+                                    rows={5}
+                                    autoSize={false}
+
+                                />
+                                <ReTextArea
+                                    label="About (AR)"
+                                    placeholder='About_Ar'
+                                    name="About_Ar"
+                                    value={form.About_Ar}
+                                    onChange={handleChange}
+                                    required
+                                    error={errors.About_Ar}
+                                    rows={5}
+                                    autoSize={false}
+
+                                />
+                            </div>
+                            <CustomDragandDrop
+                                file={form.Icon}
+                                setFile={(file) => handleChange("Icon", file)}
+                                // setFile={(file) => setForm({ ...form, Icon: file })}
+                                iconUrl={form.imgUrl}
+                                fileName={form.FileName}
+                                error={errors.Icon}
+                                accept="image/*"
+                                label={"Icon"}
                                 required
-                                error={errors.Title}
-                            />
 
-                            <ReInput
-                                label="Title (AR)"
-                                name="Title_Ar"
-                                placeholder='Title'
-                                value={form.Title_Ar}
-                                onChange={handleChange}
-                                required
-                                error={errors.Title_Ar}
+                                setIconUrl={(v: any) =>
+                                    setForm((prev: any) => ({
+                                        ...prev,
+                                        imgUrl: v,
+                                    }))
+                                }
+                                setFileName={(v: any) =>
+                                    setForm((prev: any) => ({
+                                        ...prev,
+                                        FileName: v,
+                                    }))
+                                }
                             />
                         </div>
-                        <div className="form-row">
-                            <ReTextArea
-                                label="Description (EN)"
-                                placeholder=' Description_En'
-                                name="Description"
-                                value={form.Description}
-                                onChange={handleChange}
-                                required
-                                error={errors.Description}
-                                rows={3}
-                                autoSize={false}
-
-
-                            />
-                            <ReTextArea
-                                label=" Description (AR)"
-                                placeholder=' Description_Ar'
-                                name="Description_Ar"
-                                value={form.Description_Ar}
-                                onChange={handleChange}
-                                required
-                                error={errors.Description_Ar}
-                                rows={3}
-                                autoSize={false}
-
-                            />
-                        </div>
-                        <div className='form-row'>
-                            <ReTextArea
-                                label="About (EN)"
-                                placeholder='About'
-                                name="About"
-                                value={form.About}
-                                onChange={handleChange}
-                                required
-                                error={errors.About}
-                                rows={5}
-                                autoSize={false}
-
-                            />
-                            <ReTextArea
-                                label="About (AR)"
-                                placeholder='About_Ar'
-                                name="About_Ar"
-                                value={form.About_Ar}
-                                onChange={handleChange}
-                                required
-                                error={errors.About_Ar}
-                                rows={5}
-                                autoSize={false}
-
-                            />
-                        </div>
-                        <CustomDragandDrop
-                            file={form.Icon}
-                            setFile={(file) => handleChange("Icon", file)}
-                            // setFile={(file) => setForm({ ...form, Icon: file })}
-                            iconUrl={form.imgUrl}
-                            fileName={form.FileName}
-                            error={errors.Icon}
-                            label={"Icon"}
-                            required
-
-                            setIconUrl={(v: any) =>
-                                setForm((prev: any) => ({
-                                    ...prev,
-                                    imgUrl: v,
-                                }))
-                            }
-                            setFileName={(v: any) =>
-                                setForm((prev: any) => ({
-                                    ...prev,
-                                    FileName: v,
-                                }))
-                            }
-                        />
-                    </div>
-                </>
-            </CustomModal>
+                    </>
+                </CustomModal>
+            }
 
 
         </div>

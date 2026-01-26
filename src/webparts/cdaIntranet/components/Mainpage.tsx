@@ -14,7 +14,7 @@ import TopService from './TopService/TopService';
 import Footer from './Footer/Footer';
 import ServicesResources from './MainSection/MainSection';
 import { useState, useEffect } from 'react';
-import BackToTopButton from './BacktoTopButton/BacktoTopButton.module';
+// import BackToTopButton from './BacktoTopButton/BacktoTopButton.module';
 import { getAllServices, getCategories, getTypes } from '../../Services/ServiceCard/ServiceCard';
 // import Layout from './Layout/Layout';
 // import { getCurrentDepartment, getCurrentSelection } from '../../Services/SPServices/SpServices';
@@ -62,10 +62,10 @@ const categories = {
     knowledge: { name: { ar: "بوابة المعارف", en: "Knowledge Portal" }, icon: "fas fa-brain" },
     communication: { name: { ar: "التواصل", en: "Communication" }, icon: "fas fa-comments" },
 };
-const Mainpage = ({ context }: any) => {
+const Mainpage = ({ context, ref }: any) => {
     // const [urlDept, setUrlDept] = useState<string | null>(null);
     const { currentLang, isArabic } = useLanguage(); // ✅ Stable reference
-    const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+    // const scrollContainerRef = React.useRef<HTMLDivElement>(null);
     const [category, setCategory] = React.useState<{ id: number, en: string, ar: string }[]>([]);
     const [types, setTypes] = React.useState<{ id: number, en: string, ar: string }[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
@@ -179,14 +179,15 @@ const Mainpage = ({ context }: any) => {
 
     return (
         <div className='antialiased'>
-            <div ref={scrollContainerRef} id="top"
-                style={{
-                    maxHeight: `calc(100vh - 48px)`,
-                    // maxHeight: "calc(100vh - 70px)",
-                    overflowY: "auto",
-                    overflowX: "hidden"
+            <div
+            // ref={scrollContainerRef} id="top"
+            // style={{
+            //     maxHeight: `calc(100vh - 48px)`,
+            //     // maxHeight: "calc(100vh - 70px)",
+            //     overflowY: "auto",
+            //     overflowX: "hidden"
 
-                }}
+            // }}
             >
                 <div
                     dir={isArabic ? "rtl" : "ltr"}
@@ -243,7 +244,7 @@ const Mainpage = ({ context }: any) => {
                     </div>
                     <Footer lang={currentLang}
                     />
-                    <BackToTopButton scrollContainerRef={scrollContainerRef} />
+                    {/* <BackToTopButton scrollContainerRef={ref} /> */}
 
 
                 </div>

@@ -209,8 +209,8 @@ button {
   /* Transitions & Shadows */
   --transition-speed: 0.3s;
   --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
-  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --card-shadow-hover:
+    0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 p {
@@ -445,7 +445,9 @@ p {
   justify-content: center;
   font-size: 1.5rem;
   cursor: pointer;
-  transition: opacity 0.3s, visibility 0.3s;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
   z-index: 1000;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -936,6 +938,8 @@ p {
   margin-bottom: 0.5rem;
 }
 
+/* Richtext Editor Styles */
+
 .ql-editor {
   /* min-height: 200px !important; */
   overflow-wrap: break-word;
@@ -952,4 +956,10 @@ p {
 
 .ql-toolbar.ql-snow {
   background: #f0ecec;
+}
+/* richtext editor end */
+.common-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }

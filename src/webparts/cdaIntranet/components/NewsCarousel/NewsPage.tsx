@@ -684,7 +684,7 @@ const NewsPage = ({ homepage }: any): JSX.Element => {
             </main>
 
 
-            <footer className={styles.footer}>
+            <footer className={newsList?.length === 0 ? `common-footer ${styles.footer}` : styles.footer}>
                 <div className={styles.container}>
                     {/* <p>
                         &copy; {year} جميع الحقوق محفوظة لهيئة تنمية المجتمع - دبي.

@@ -255,7 +255,7 @@ const NewsDetail = ({ id, homepage }: any) => {
 
 
 
-            <footer className={styles.footer}>
+            <footer className={` ${styles.footer}`}>
                 <div className={styles.container}>
                     {/* <p>
                         &copy; {year} جميع الحقوق محفوظة لهيئة تنمية المجتمع - دبي.

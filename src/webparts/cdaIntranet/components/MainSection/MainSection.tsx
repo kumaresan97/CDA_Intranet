@@ -39,6 +39,8 @@ const ServicesResources: React.FC<Props> = ({ serviceData,
         duration: 2,
         maxCount: 1,
     });
+    const langs = lang.startsWith("ar");
+
     const [searchTerm, setSearchTerm] = useState("");
     const [ismodalOpen, setIsModalOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<any | null>(null);
@@ -211,7 +213,7 @@ const ServicesResources: React.FC<Props> = ({ serviceData,
         // setForm({ ...item })
         setForm({
             ...item,
-            Icon: null,               // always reset
+            Icon: null,
             iconUrl: item.attachmentUrl,
             fileName: item.fileName
         });
@@ -420,25 +422,57 @@ const ServicesResources: React.FC<Props> = ({ serviceData,
     const filteredData = useMemo(() => {
         let filtered = serviceData;
 
+        // if (searchTerm.trim() !== "") {
+        //     filtered = filtered.filter((item) =>
+        //         item.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        //         item.Description_En?.toLowerCase().includes(searchTerm.toLowerCase())
+        //     );
+        // }
+
+
+
+        // if (activeCategory === "favorite") {
+        //     filtered = filtered.filter(item => favorites.includes(item.id));
+        // }
+        // else if (activeCategory !== "all") {
+        //     filtered = filtered.filter(item => item.Category_En === activeCategory);
+        // }
+        // 
+
+
+
         if (searchTerm.trim() !== "") {
-            filtered = filtered.filter((item) =>
-                item.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.Description_En?.toLowerCase().includes(searchTerm.toLowerCase())
-            );
+            filtered = filtered.filter((item) => {
+                if (langs) {
+                    return (
+                        item.Title_Ar?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        item.Description_Ar?.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                } else {
+                    return (
+                        item.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        item.Description_En?.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                }
+            });
         }
 
+        // Category filter
         if (activeCategory === "favorite") {
-            filtered = filtered.filter(item => favorites.includes(item.id));
+            filtered = filtered.filter((item) => favorites.includes(item.id));
+        } else if (activeCategory !== "all") {
+            filtered = filtered.filter((item) => {
+                if (langs) {
+                    return item.Category_Ar === activeCategory;
+                } else {
+                    return item.Category_En === activeCategory;
+                }
+            });
         }
-        else if (activeCategory !== "all") {
-            filtered = filtered.filter(item => item.Category_En === activeCategory);
-        }
-        // 
         return filtered;
     }, [serviceData, searchTerm, activeCategory]);
 
 
-    const langs = lang.startsWith("ar");
     const renderCardsByType = useCallback(
         (type: string) =>
             filteredData
@@ -742,6 +776,7 @@ const ServicesResources: React.FC<Props> = ({ serviceData,
                             file={form.Icon}
                             iconUrl={form.iconUrl}
                             fileName={form.fileName}
+                            accept="image/*"
                             setFile={(file) =>
                                 setForm((prev: any) => ({
                                     ...prev,

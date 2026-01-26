@@ -470,6 +470,8 @@ const DepartmentService = ({ deptId, lang }: any) => {
                                 file={modal.form.Icon}
                                 label="Icon"
                                 required={true}
+                                accept="image/*"
+
                                 setFile={(f) =>
                                     setModal((prev) => ({
                                         ...prev,

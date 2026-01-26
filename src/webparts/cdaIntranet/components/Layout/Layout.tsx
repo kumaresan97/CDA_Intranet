@@ -8,7 +8,7 @@ import * as React from 'react'
 import { useEffect, useState } from 'react';
 import CommingSoon from '../CommingSoon/CommingSoon';
 import AboutSection from '../Department/About/DepartmentAbout';
-import ResourceSection from '../Department/Card/DepartmentCard';
+import ResourceSection from '../Department/Card/DepartmentPolicies_GuideLines';
 import DepartmentFormResource from '../Department/Form/DepartmentFormResource';
 import DepartmentHeader from '../Department/Header/Departmentheader';
 import DepartmentService from '../Department/Service/DepartmentService';

@@ -1,64 +1,4 @@
-// import * as React from "react";
-// import { useEffect, useState } from "react";
-// import { getCurrentSelection } from "../../Services/SPServices/SpServices";
-// // import MainpageContent from "./MainpageContent";
-// import SectorLayout from "./Sector/SectorLayout";
-// import NewsPage from "./NewsCarousel/NewsPage";
-// import NewsDetail from "./NewsCarousel/NewsDetail";
-// import Layout from "./Layout/Layout";
-// import { useLanguage } from "./useContext/useContext";
-// import Mainpage from "./Mainpage";
 
-// const MainpageWrapper = () => {
-//     const { isArabic } = useLanguage();
-
-//     const [selection, setSelection] = useState<{
-//         type: "dept" | "sector" | "newsPage" | "newsView" | null;
-//         id: string | null;
-//     }>({ type: null, id: null });
-
-//     useEffect(() => {
-//         const handleUrlChange = () => {
-//             setSelection(getCurrentSelection());
-//         };
-
-//         handleUrlChange();
-//         window.addEventListener("popstate", handleUrlChange);
-
-//         return () => window.removeEventListener("popstate", handleUrlChange);
-//     }, []);
-
-//     const goHome = () => {
-//         const url = new URL(window.location.href);
-//         url.search = "";
-//         window.history.pushState({}, "", url.toString());
-//         window.dispatchEvent(new PopStateEvent("popstate"));
-//     };
-
-//     // 🔁 ROUTE SWITCH ONLY
-//     switch (selection.type) {
-//         case "dept":
-//             return (
-//                 <Layout childern={`div`} isFinish home={goHome} lang={isArabic} dept={selection.id}>
-//                     <div />
-//                 </Layout>
-//             );
-
-//         case "sector":
-//             return <SectorLayout id={selection.id!} home={goHome} />;
-
-//         case "newsPage":
-//             return <NewsPage homepage={goHome} />;
-
-//         case "newsView":
-//             return <NewsDetail id={selection.id!} homepage={goHome} />;
-
-//         default:
-//             return <Mainpage />;
-//     }
-// };
-
-// export default MainpageWrapper;
 
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -69,6 +9,7 @@ import NewsDetail from "./NewsCarousel/NewsDetail";
 import Layout from "./Layout/Layout";
 import Mainpage from "./Mainpage";
 import { useLanguage } from "./useContext/useContext";
+import BackToTopButton from "./BacktoTopButton/BacktoTopButton.module";
 
 type SelectionType = {
     type: "dept" | "sector" | "newsPage" | "newsView" | null;
@@ -77,6 +18,8 @@ type SelectionType = {
 
 const MainpageWrapper = () => {
     const { isArabic } = useLanguage();
+    const scrollRef = React.useRef<HTMLDivElement>(null);
+
     // const dir = isArabic ? "rtl" : "ltr";
 
     const [selection, setSelection] = useState<SelectionType>({
@@ -122,11 +65,44 @@ const MainpageWrapper = () => {
 
         newsView: <NewsDetail id={selection.id!} homepage={goHome} />,
     };
+    const isMainPage = !selection.type;
+
 
     return (
-        <div >
-            {routes[selection.type ?? ""] ?? <Mainpage />}
-        </div>
+        // <div ref={scrollRef}
+        //     style={{
+        //         maxHeight: "calc(100vh - 48px)",
+        //         overflowY: "auto",
+        //         overflowX: "hidden",
+        //     }}
+        // // dir={isArabic ? "rtl" : "ltr"}
+        // >
+        //     {routes[selection.type ?? ""] ?? <Mainpage ref={scrollRef} />}
+        // </div>
+
+        <>
+            {isMainPage ? (
+                <div
+                    ref={scrollRef}
+                    style={{
+                        maxHeight: "calc(100vh - 48px)",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                    }}
+                >
+                    <Mainpage />
+                    <BackToTopButton scrollContainerRef={scrollRef} />
+                </div>
+            ) : (
+                <div style={{
+                    maxHeight: "calc(100vh - 48px)",
+                    overflowY: "auto",
+                    overflowX: "hidden",
+                }}>
+                    {routes[selection.type ?? ""]}
+                </div>
+            )}
+        </>
     );
 };
 
