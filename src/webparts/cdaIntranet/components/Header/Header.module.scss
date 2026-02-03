@@ -18,8 +18,8 @@
   /* Transitions & Shadows */
   --transition-speed: 0.3s;
   --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
-  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --card-shadow-hover:
+    0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 .bg-dds-primary {
   background-color: var(--dds-blue-500);
@@ -33,7 +33,6 @@
   z-index: 50;
 
   .container {
-    // max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
   }
@@ -91,7 +90,6 @@
     }
 
     .mainNavContainer {
-      // max-width: 1024px;
       margin: 0 auto;
       padding: 0 1rem;
 
@@ -105,9 +103,6 @@
           display: flex;
           align-items: center;
 
-          i {
-            // margin-left: 0.5rem;
-          }
           .departmentSection {
             position: relative;
 
@@ -120,7 +115,6 @@
 
             .dropdownmenu {
               position: absolute;
-              // right: 0;
               margin-top: 0.5rem;
               width: 100vw;
               max-width: 56rem; /* 4xl */
@@ -171,8 +165,6 @@
 
   transform: translateX(100%);
   transition: transform 300ms ease-in-out;
-
-  // overflow-y: auto;
 
   @media (min-width: 1024px) {
     // lg:hidden
@@ -234,15 +226,6 @@
 
   .sectorsColumn {
     width: 33.3333%; // w-1/3
-    // border-inline-start: 1px solid var(--dds-gray-200);
-
-    // border-left: 1px solid var(--dds-gray-200); // border-l border-gray-200
-    // padding-left: 1rem; // pl-4
-
-    // h3 {
-    //   margin-bottom: 0.5rem !important; // mb-2
-    //   padding: 0 !important; // p-0
-    // }
     .sectorItem {
       > * + * {
         margin-top: 0.25rem; // spacing between items
@@ -250,7 +233,6 @@
 
       .buttonItem {
         width: 100%; // w-full
-        // text-align: right; // text-right
         padding: 12px; // p-3 (3 * 4px)
         background-color: #f9fafb; // bg-gray-50
         border-radius: 0.5rem; // rounded-lg (8px)
@@ -264,11 +246,7 @@
         }
         .fontSemiBlue {
           font-weight: 600; // font-semibold
-
-          // text-dds-blue-700 (your custom color)
           color: var(--dds-blue-700); // if using CSS variable
-          // or direct hex if you know it:
-          // color: #1d4ed8;
         }
         .i {
           color: var(--dds-blue-500);

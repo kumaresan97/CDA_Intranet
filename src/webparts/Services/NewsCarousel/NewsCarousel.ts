@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { sp } from "@pnp/sp/presets/all";
 import { ListName } from "../../cdaIntranet/components/Config/Constant";
 
@@ -46,7 +48,7 @@ export const getNewsList = async (iscarousel = false) => {
       "Category_Ar",
       "ViewCount",
       "NewsDate",
-      "IsDelete"
+      "IsDelete",
     )
     .filter("IsDelete ne 1")
     .expand("AttachmentFiles")
@@ -101,12 +103,10 @@ export const getNewsById = async (id: number) => {
       "Category_Ar",
       "ViewCount",
       "NewsDate",
-      "IsDelete"
+      "IsDelete",
     )
     .expand("AttachmentFiles")
     .get();
-  console.log("item: ", item);
-  debugger;
 
   return {
     id: item.ID,
@@ -125,7 +125,10 @@ export const getNewsById = async (id: number) => {
   };
 };
 
-export const incrementNewsView = async (id: number, currentViews: number) => {
+export const incrementNewsView = async (
+  id: number,
+  currentViews: number,
+): Promise<void> => {
   await sp.web.lists
     .getByTitle(ListName.News_Details)
     .items.getById(id)

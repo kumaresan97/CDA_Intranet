@@ -1,6 +1,7 @@
 .header {
   background-color: var(--dds-blue-500); // or your primary color
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
@@ -35,10 +36,6 @@
         &:hover {
           color: #e5e7eb;
         }
-
-        // i {
-        //   margin-left: 0.5rem;
-        // }
       }
     }
   }
@@ -70,12 +67,9 @@
 .breadcrumbList {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0px;
   direction: rtl;
-
-  @media (min-width: 768px) {
-    gap: 0.75rem;
-  }
+  list-style-type: none;
 }
 
 .breadcrumbItem {
@@ -203,16 +197,9 @@
 .departmentCard {
   display: block;
   padding: 1.5rem; // p-6
-  // border-radius: 0.75rem;
-  // background-color: #ffffff;
   text-decoration: none;
-  // transition: box-shadow 0.2s ease, transform 0.2s ease;
-  // box-shadow: var(--card-shadow, 0 1px 2px rgba(0, 0, 0, 0.05));
 
   &:hover {
-    // transform: translateY(-2px);
-    // box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-
     .cardArrow {
       color: var(--dds-blue-500);
     }

@@ -7,14 +7,10 @@ import {
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
-
 import * as strings from "CdaIntranetWebPartStrings";
 import CdaIntranet from "./components/CdaIntranet";
 import { ICdaIntranetProps } from "./components/ICdaIntranetProps";
 import { SPComponentLoader } from "@microsoft/sp-loader";
-// import "../../styles/dist/tailwind.css";
-// import "../../styles/styles.css";
-
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 
 export interface ICdaIntranetWebPartProps {
@@ -25,7 +21,7 @@ export default class CdaIntranetWebPart extends BaseClientSideWebPart<ICdaIntran
   public constructor() {
     super();
     SPComponentLoader.loadCss(
-      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css",
     );
     SPComponentLoader.loadCss("https://cdn.tailwindcss.com");
   }
@@ -43,7 +39,7 @@ export default class CdaIntranetWebPart extends BaseClientSideWebPart<ICdaIntran
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
         context: this.context,
-      }
+      },
     );
 
     ReactDom.render(element, this.domElement);
@@ -90,7 +86,7 @@ export default class CdaIntranetWebPart extends BaseClientSideWebPart<ICdaIntran
     return Promise.resolve(
       this.context.isServedFromLocalhost
         ? strings.AppLocalEnvironmentSharePoint
-        : strings.AppSharePointEnvironment
+        : strings.AppSharePointEnvironment,
     );
   }
 
@@ -105,12 +101,12 @@ export default class CdaIntranetWebPart extends BaseClientSideWebPart<ICdaIntran
     if (semanticColors) {
       this.domElement.style.setProperty(
         "--bodyText",
-        semanticColors.bodyText || null
+        semanticColors.bodyText || null,
       );
       this.domElement.style.setProperty("--link", semanticColors.link || null);
       this.domElement.style.setProperty(
         "--linkHovered",
-        semanticColors.linkHovered || null
+        semanticColors.linkHovered || null,
       );
     }
   }

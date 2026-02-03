@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { sp } from "@pnp/sp/presets/all";
 
 export const getSpeechPageData = async () => {
@@ -15,7 +16,7 @@ export const getSpeechPageData = async () => {
       "Designation_Ar",
       "About_En",
       "About_Ar",
-      "AttachmentFiles"
+      "AttachmentFiles",
     )
     .expand("AttachmentFiles")();
 
@@ -26,7 +27,7 @@ export const getSpeechPageData = async () => {
         ? item.AttachmentFiles[0].ServerRelativeUrl
         : null;
 
-    let data = [
+    const data = [
       {
         id: item.Id,
         title: item.Title,

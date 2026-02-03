@@ -1,12 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { sp } from "@pnp/sp/presets/all";
 
 export const EventService = {
   getAll: async () => {
-    // return sp.web.lists
-    //   .getByTitle("UpcomingEvents")
-    //   .items.select("*")
-    //   .orderBy("EventDate", false)();
-
     try {
       const items = await sp.web.lists
         .getByTitle("UpcomingEvents")
@@ -18,7 +14,7 @@ export const EventService = {
           "Description_En",
           "Description_Ar",
           "EventDate",
-          "isDelete"
+          "isDelete",
         )
         .get();
 
@@ -61,7 +57,6 @@ export const EventService = {
   },
 
   delete: async (id: number) => {
-    // return sp.web.lists.getByTitle("UpcomingEvents").items.getById(id).delete();
     return sp.web.lists
       .getByTitle("UpcomingEvents")
       .items.getById(id)

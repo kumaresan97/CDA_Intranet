@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { sp } from "@pnp/sp/presets/all";
 import { ListName } from "../../cdaIntranet/components/Config/Constant";
 import { ServiceState } from "../../cdaIntranet/Type/Interface";
@@ -7,7 +8,7 @@ type DropdownOption = { label: string; value: string };
 
 export const getChoiceData = async (
   Field: string,
-  Listname: string
+  Listname: string,
 ): Promise<string[]> => {
   try {
     const res: any = await SpServices.SPGetChoices({
@@ -22,7 +23,7 @@ export const getChoiceData = async (
 };
 export async function getChoiceDropdownOptions(
   fields: string | string[],
-  Listname: string
+  Listname: string,
 ): Promise<DropdownOption[] | Record<string, DropdownOption[]>> {
   if (typeof fields === "string") {
     try {
@@ -39,7 +40,7 @@ export async function getChoiceDropdownOptions(
         fields.map(async (field) => {
           const choices = await getChoiceData(field, Listname);
           result[field] = choices.map((item) => ({ label: item, value: item }));
-        })
+        }),
       );
       return result;
     } catch (err) {
@@ -65,7 +66,7 @@ export const ServiceTaskService = {
         "Title_Ar",
         "DeptType_En",
         "DeptType_Ar",
-        "AttachmentFiles"
+        "AttachmentFiles",
       )
       .expand("AttachmentFiles")
       .orderBy("Id")();
@@ -128,8 +129,8 @@ export const ServiceTaskService = {
       const files = await item.attachmentFiles();
       await Promise.all(
         files.map((f: any) =>
-          item.attachmentFiles.getByName(f.FileName).delete()
-        )
+          item.attachmentFiles.getByName(f.FileName).delete(),
+        ),
       );
       await item.attachmentFiles.add(form.Icon.name, form.Icon);
     }

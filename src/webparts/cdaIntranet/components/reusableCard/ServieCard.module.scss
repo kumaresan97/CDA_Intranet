@@ -32,8 +32,8 @@
       height: 3rem;
 
       img {
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
       }
       i {
         font-size: 1.5rem;
@@ -46,8 +46,9 @@
       line-height: 1.75rem;
 
       z-index: 10;
-      transition-property: background-color, border-color, color, fill, stroke,
-        opacity, box-shadow, transform;
+      transition-property:
+        background-color, border-color, color, fill, stroke, opacity,
+        box-shadow, transform;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 300ms;
       border: none;

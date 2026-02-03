@@ -1,6 +1,7 @@
 .header {
   background-color: var(--dds-blue-500); // or your primary color
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
@@ -35,10 +36,6 @@
         &:hover {
           color: #e5e7eb;
         }
-
-        // i {
-        //   margin-left: 0.5rem;
-        // }
       }
     }
   }
@@ -50,31 +47,6 @@
   padding: 1.5rem;
   background: var(--dds-gray-50);
 }
-
-// .breadcrumb {
-//   margin-bottom: 1.5rem;
-//   font-size: 0.875rem;
-
-//   ol {
-//     display: flex;
-//     align-items: center;
-//     gap: 0.5rem;
-//   }
-
-//   a {
-//     cursor: pointer;
-//     color: #6b7280;
-
-//     &:hover {
-//       color: var(--dds-blue-700);
-//     }
-//   }
-
-//   span {
-//     font-weight: 500;
-//     color: #111827;
-//   }
-// }
 
 .breadcrumb {
   margin-bottom: 1.5rem;

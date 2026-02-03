@@ -8,7 +8,6 @@
 
   @media (min-width: 1024px) {
     flex-direction: row;
-    // align-items: flex-start;
   }
 
   .logoSection {
@@ -24,7 +23,6 @@
       border: var(--dds-gold-500);
       background-image: linear-gradient(to right, #eff6ff, #ffffff);
 
-      // background-image: linear-gradient(to right, var(--tw-gradient-stops));
       @media (min-width: 768px) {
         flex-direction: row;
       }
@@ -47,7 +45,8 @@
 
           width: 6rem;
           height: 6rem;
-          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          box-shadow:
+            0 10px 15px -3px rgba(0, 0, 0, 0.1),
             0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
           @media (min-width: 768px) {
@@ -58,11 +57,7 @@
       }
       .messageSecction {
         flex-grow: 1;
-        // text-align: center;
 
-        @media (min-width: 768px) {
-          // text-align: right;
-        }
         .Title {
           font-size: 1.25rem;
           line-height: 1.75rem;
@@ -92,7 +87,6 @@
             text-decoration: underline;
           }
           i {
-            // margin-right: 0.25rem;
             font-size: 0.75rem;
           }
         }

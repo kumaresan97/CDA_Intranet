@@ -1,21 +1,10 @@
+/* eslint-disable @rushstack/no-new-null */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ListName } from "../../cdaIntranet/components/Config/Constant";
 import { IService } from "../../cdaIntranet/Type/Interface";
 import SpServices from "../SPServices/SpServices";
-
-// // IService.ts
-// export interface IService {
-//   id: number;
-//   title: string;
-//   description: string;
-//   type: string;
-//   category: string;
-//   isFavorite: boolean;
-//   icon: string;
-//   color?: string; // optional custom UI color
-//   url?: string; // optional redirect link
-//   views?: number;
-//   rating?: number;
-// }
+import { sp } from "@pnp/sp/presets/all";
 
 export const getAllServices = async (): Promise<IService[]> => {
   // Get items and expand attachments
@@ -33,20 +22,8 @@ export const getAllServices = async (): Promise<IService[]> => {
     Topcount: 5000,
   });
 
-  // await sp.web.lists
-  //   .getByTitle("CategoryService")
-  //   .items.filter("isDelete eq false")
-  //   .expand("AttachmentFiles")
-  //   .getAll();
-
   // Map items and prepare Icon as File object
   const res: IService[] = items.map((item: any) => {
-    // If attachments exist, convert first attachment to File object
-    // const iconFile =
-    //   item.AttachmentFiles && item.AttachmentFiles.length
-    //     ? new File([], item.AttachmentFiles[0].FileName, { type: "image/*" })
-    //     : null;
-
     const attachment = item.AttachmentFiles?.[0];
 
     return {
@@ -61,10 +38,6 @@ export const getAllServices = async (): Promise<IService[]> => {
 
       attachmentUrl: attachment?.ServerRelativeUrl || "",
       fileName: attachment?.FileName || "",
-      // attachmentUrl:
-      //   item.AttachmentFiles && item.AttachmentFiles.length
-      //     ? item.AttachmentFiles[0].ServerRelativeUrl
-      //     : "",
       Color: item.Color || "",
       Category_En: item.Category_En || "",
       Category_Ar: item.Category_Ar || "",
@@ -87,7 +60,6 @@ export const getCategories = async () => {
     Listname: ListName.Config_Category,
     Topcount: 5000,
   });
-  // sp.web.lists.getByTitle("Config_Category").items.getAll();
 
   return items.map((item: any) => ({
     id: item.Id,
@@ -101,7 +73,6 @@ export const getTypes = async () => {
     Listname: ListName.Type_Config,
     Topcount: 5000,
   });
-  //  sp.web.lists.getByTitle("Type_Config").items.getAll();
   return items.map((item: any) => ({
     id: item.Id,
     en: item.Title_En,
@@ -109,29 +80,9 @@ export const getTypes = async () => {
   }));
 };
 
-import { sp } from "@pnp/sp/presets/all";
-
-/* ===================== ADD ===================== */
-// export const addServiceItem = async (payload: any): Promise<number> => {
-//   try {
-//     const res = await SpServices.SPAddItem({
-//       Listname: ListName.CategoryService,
-//       RequestJSON: payload,
-//     });
-//     // sp.web.lists
-//     //   .getByTitle("CategoryService")
-//     //   .items.add(payload);
-
-//     return res.data.Id;
-//   } catch (error) {
-//     console.error("addServiceItem error:", error);
-//     throw error;
-//   }
-// };
-
 export async function addServiceItem(
   payload: any,
-  file?: File | null
+  file?: File | null,
 ): Promise<number> {
   const res = await sp.web.lists
     .getByTitle(ListName.CategoryService)
@@ -153,10 +104,6 @@ export const updateServiceItem = async (id: number, payload: any) => {
       ID: id,
       RequestJSON: payload,
     });
-    // sp.web.lists
-    //   .getByTitle("CategoryService")
-    //   .items.getById(id)
-    //   .update(payload);
   } catch (error) {
     console.error("updateServiceItem error:", error);
     throw error;
@@ -173,10 +120,6 @@ export const deleteServiceItem = async (id: number) => {
         isDelete: true,
       },
     });
-    // sp.web.lists
-    //   .getByTitle("CategoryService")
-    //   .items.getById(id)
-    //   .update({ isDelete: true });
   } catch (error) {
     console.error("deleteServiceItem error:", error);
     throw error;
@@ -193,10 +136,6 @@ export const toggleFavoriteService = async (id: number, value: boolean) => {
         IsFavorite: value,
       },
     });
-    // sp.web.lists
-    //   .getByTitle("CategoryService")
-    //   .items.getById(id)
-    //   .update({ IsFavorite: value });
   } catch (error) {
     console.error("toggleFavoriteService error:", error);
     throw error;
@@ -213,40 +152,15 @@ export const updateViewCount = async (id: number, views: number) => {
         Views: views,
       },
     });
-    // sp.web.lists
-    //   .getByTitle("CategoryService")
-    //   .items.getById(id)
-    //   .update({ Views: views });
   } catch (error) {
     console.error("updateViewCount error:", error);
     throw error;
   }
 };
 
-/* ===================== ATTACHMENTS ===================== */
-// export const replaceAttachment = async (id: number, file: File) => {
-//   try {
-//     const item = sp.web.lists.getByTitle("CategoryService").items.getById(id);
-
-//     const attachments = await item.attachmentFiles();
-
-//     if (attachments.length > 0) {
-//       await item.attachmentFiles.getByName(attachments[0].FileName).delete();
-//     }
-
-//     await item.attachmentFiles.add(file.name, file);
-
-//     const newAttachments = await item.attachmentFiles();
-//     return newAttachments[0]?.ServerRelativeUrl || "";
-//   } catch (error) {
-//     console.error("replaceAttachment error:", error);
-//     throw error;
-//   }
-// };
-
 export const replaceAttachment = async (
   id: number,
-  file: File
+  file: File,
 ): Promise<{ url: string; fileName: string }> => {
   const item = sp.web.lists.getByTitle("CategoryService").items.getById(id);
 
@@ -255,8 +169,8 @@ export const replaceAttachment = async (
   if (attachments.length) {
     await Promise.all(
       attachments.map((a) =>
-        item.attachmentFiles.getByName(a.FileName).delete()
-      )
+        item.attachmentFiles.getByName(a.FileName).delete(),
+      ),
     );
   }
 

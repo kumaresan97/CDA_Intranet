@@ -1,3 +1,4 @@
+/* eslint-disable @rushstack/no-new-null */
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable no-var */
@@ -61,7 +62,7 @@ const formatInputs = (data: IListItems): IListItems => {
 
 const formatFilterValue = (
   params: IFilter[] | undefined,
-  filterCondition: string
+  filterCondition: string,
 ): string => {
   let strFilter: string = "";
   if (params) {
@@ -108,7 +109,7 @@ const SPReadItems = async (params: IListItems): Promise<any[]> => {
   params = formatInputs(params);
   let filterValue: string = formatFilterValue(
     params.Filter,
-    params.FilterCondition ? params.FilterCondition : ""
+    params.FilterCondition ? params.FilterCondition : "",
   );
 
   return await sp.web.lists
@@ -258,19 +259,18 @@ const batchDelete = async (params: {
   await batch.execute();
   return promises;
 };
-// export const getCurrentDepartment = (): string | null => {
-//   const params = new URLSearchParams(window.location.search);
-//   const dept = params.get("dept");
-//   return dept ? decodeURIComponent(dept) : null; // "dg_message" from "dg_message"
-// };
 
 export const getCurrentSelection = (): {
-  type: "dept" | "sector" | "newsPage" | "newsView" | null;
+  type: "dept" | "sector" | "newsPage" | "newsView" | "coming_soon" | null;
   id: string | null;
 } => {
   const params = new URLSearchParams(window.location.search);
   if (params.has("NewsPage")) {
     return { type: "newsPage", id: null };
+  }
+
+  if (params.has("coming_soon")) {
+    return { type: "coming_soon", id: null };
   }
 
   const newsViewId = params.get("NewsView");
