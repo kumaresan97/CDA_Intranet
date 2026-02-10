@@ -6,6 +6,7 @@ import * as React from "react";
 import { useCallback, useMemo, useState } from "react";
 import {
   addServiceItem,
+  deleteAttachments,
   deleteServiceItem,
   replaceAttachment,
   toggleFavoriteService,
@@ -162,13 +163,26 @@ const ServicesResources: React.FC<Props> = ({
       let fileName = editingItem?.fileName || "";
 
       if (editingItem) {
-        // 🔁 UPDATE
         await updateServiceItem(id, payload);
 
-        if (form.Icon instanceof File) {
+        // 🗑 ICON DELETED
+        if (!form?.iconUrl && !form?.Icon) {
+          await deleteAttachments(id);
+          attachmentUrl = "";
+          fileName = "";
+        }
+
+        // 🔁 ICON REPLACED
+        else if (form.Icon instanceof File) {
           const res = await replaceAttachment(id, form.Icon);
           attachmentUrl = res.url;
           fileName = res.fileName;
+        }
+
+        // 🟢 KEEP OLD ICON
+        else {
+          attachmentUrl = editingItem.attachmentUrl;
+          fileName = editingItem.fileName;
         }
       } else {
         // ➕ ADD
@@ -198,6 +212,7 @@ const ServicesResources: React.FC<Props> = ({
       setLoading(false);
     }
   };
+
   const handleDelete = (item: any): void => {
     Modal.confirm({
       title: "Delete Service?",

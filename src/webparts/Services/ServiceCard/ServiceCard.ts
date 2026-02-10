@@ -164,9 +164,11 @@ export const replaceAttachment = async (
 ): Promise<{ url: string; fileName: string }> => {
   const item = sp.web.lists.getByTitle("CategoryService").items.getById(id);
 
+  // 🔹 Get existing attachments
   const attachments = await item.attachmentFiles();
 
-  if (attachments.length) {
+  // 🔥 Delete all existing attachments
+  if (attachments.length > 0) {
     await Promise.all(
       attachments.map((a) =>
         item.attachmentFiles.getByName(a.FileName).delete(),
@@ -174,10 +176,24 @@ export const replaceAttachment = async (
     );
   }
 
+  // ➕ Add new attachment
   const result: any = await item.attachmentFiles.add(file.name, file);
 
   return {
     url: result.data.ServerRelativeUrl,
     fileName: file.name,
   };
+};
+
+export const deleteAttachments = async (id: number): Promise<void> => {
+  const item = sp.web.lists.getByTitle("CategoryService").items.getById(id);
+  const attachments = await item.attachmentFiles();
+
+  if (attachments.length > 0) {
+    await Promise.all(
+      attachments.map((a) =>
+        item.attachmentFiles.getByName(a.FileName).delete(),
+      ),
+    );
+  }
 };

@@ -134,6 +134,19 @@ export const ServiceTaskService = {
       );
       await item.attachmentFiles.add(form.Icon.name, form.Icon);
     }
+
+    if (!form?.iconUrl && !form?.Icon) {
+      const item = sp.web.lists.getByTitle(LIST_NAME).items.getById(form?.id);
+      const attachments = await item.attachmentFiles();
+
+      if (attachments.length > 0) {
+        await Promise.all(
+          attachments.map((a) =>
+            item.attachmentFiles.getByName(a.FileName).delete(),
+          ),
+        );
+      }
+    }
   },
 
   async deleteService(id: number) {

@@ -174,6 +174,21 @@ const ResourceSection: React.FC<ResourceSectionProps> = ({ id, lang }) => {
       fileName = modal.Icon.name;
     }
 
+    if (!modal?.iconUrl && !modal?.Icon) {
+      const item = sp.web.lists
+        .getByTitle("Config_Policies_Guidelines")
+        .items.getById(modal?.id);
+      const attachments = await item.attachmentFiles();
+
+      if (attachments.length > 0) {
+        await Promise.all(
+          attachments.map((a) =>
+            item.attachmentFiles.getByName(a.FileName).delete(),
+          ),
+        );
+      }
+    }
+
     setPolicies((prev) =>
       prev.map((p) =>
         p.id === modal.id
